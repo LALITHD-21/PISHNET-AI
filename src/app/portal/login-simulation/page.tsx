@@ -87,6 +87,86 @@ const TEMPLATE_INDICATORS: Record<string, { indicators: string[]; attackType: st
       "Requests for personal documents require extra verification with HR.",
     ],
   },
+  tpl_mfa_fatigue: {
+    attackType: "MFA Fatigue and Push Approval Abuse",
+    severity: "CRITICAL",
+    indicators: [
+      "Unexpected MFA prompts can mean someone already has the password.",
+      "The email tries to make approving a push request feel normal.",
+      "The sender domain is not the official identity-provider domain.",
+      "Employees should deny unknown prompts and report them to the SOC.",
+    ],
+  },
+  tpl_docusign_contract: {
+    attackType: "Signature Platform Impersonation",
+    severity: "HIGH",
+    indicators: [
+      "The message uses a generic signature-workflow domain.",
+      "Contract urgency encourages authentication before verification.",
+      "Legal and procurement documents should be opened from approved systems.",
+      "Unexpected signature packets require sender confirmation.",
+    ],
+  },
+  tpl_teams_file: {
+    attackType: "Collaboration File Share Impersonation",
+    severity: "HIGH",
+    indicators: [
+      "The sender is a Teams/SharePoint lookalike domain.",
+      "Sensitive file names are used to trigger curiosity.",
+      "File shares should be verified inside the official collaboration app.",
+      "Unexpected re-authentication is a warning sign.",
+    ],
+  },
+  tpl_github_oauth: {
+    attackType: "Developer OAuth Consent Phishing",
+    severity: "CRITICAL",
+    indicators: [
+      "OAuth consent can grant account or repository access without asking for a password.",
+      "The sender domain is not the official code-hosting domain.",
+      "Access approvals should be reviewed from organization settings.",
+      "Broad app permissions require extra scrutiny.",
+    ],
+  },
+  tpl_vpn_cert: {
+    attackType: "Remote Access Certificate Renewal Lure",
+    severity: "HIGH",
+    indicators: [
+      "VPN certificate updates should come from device management tools, not email links.",
+      "The email threatens remote-access suspension to create pressure.",
+      "The sender domain is not the approved network-access platform.",
+      "Employees should contact IT through known support channels.",
+    ],
+  },
+  tpl_tax_w2: {
+    attackType: "Tax Document and HR Records Scam",
+    severity: "HIGH",
+    indicators: [
+      "Tax-season lures exploit concern around personal financial documents.",
+      "The sender is a generic employee-records service.",
+      "Identity confirmation must happen inside official payroll systems.",
+      "Requests for tax documents deserve HR verification.",
+    ],
+  },
+  tpl_deepfake_voice: {
+    attackType: "Deepfake Voice and Executive Authority Lure",
+    severity: "CRITICAL",
+    indicators: [
+      "Voice lures can imitate executives and create false authority.",
+      "The relay domain is not an approved executive communications system.",
+      "Urgent requests should be verified through a known callback number.",
+      "Sensitive approvals should never rely on one email or voice memo.",
+    ],
+  },
+  tpl_password_manager: {
+    attackType: "Password Manager Vault Share Phishing",
+    severity: "HIGH",
+    indicators: [
+      "Security-tool branding can make phishing feel more trustworthy.",
+      "Privileged vault item names create curiosity and urgency.",
+      "Vault shares should be opened from the official password-manager app.",
+      "Unexpected shared credentials should be reported to security.",
+    ],
+  },
 };
 
 function LoginSimulationInner() {
@@ -144,15 +224,25 @@ function LoginSimulationInner() {
   }
 
   // --- Render correct fake portal based on template ---
-  if (tpl === "tpl_m365" || tpl === "tpl_qr" || tpl === "tpl_zoom") {
+  if (
+    tpl === "tpl_m365" ||
+    tpl === "tpl_qr" ||
+    tpl === "tpl_zoom" ||
+    tpl === "tpl_mfa_fatigue" ||
+    tpl === "tpl_docusign_contract" ||
+    tpl === "tpl_teams_file" ||
+    tpl === "tpl_github_oauth" ||
+    tpl === "tpl_vpn_cert" ||
+    tpl === "tpl_password_manager"
+  ) {
     return <Microsoft365Form emailInput={emailInput} setEmailInput={setEmailInput} password={password} setPassword={setPassword} showPass={showPass} setShowPass={setShowPass} formStep={formStep} handleNextStep={handleNextStep} handleSubmit={handleSubmit} isQr={tpl === "tpl_qr"} />;
   }
 
-  if (tpl === "tpl_payroll" || tpl === "tpl_bank" || tpl === "tpl_invoice" || tpl === "tpl_internship") {
+  if (tpl === "tpl_payroll" || tpl === "tpl_bank" || tpl === "tpl_invoice" || tpl === "tpl_internship" || tpl === "tpl_tax_w2") {
     return <PayrollForm bankName={bankName} setBankName={setBankName} accountNum={accountNum} setAccountNum={setAccountNum} routingNum={routingNum} setRoutingNum={setRoutingNum} password={password} setPassword={setPassword} emailInput={emailInput} handleSubmit={handleSubmit} />;
   }
 
-  if (tpl === "tpl_ceo") {
+  if (tpl === "tpl_ceo" || tpl === "tpl_deepfake_voice") {
     return <CeoForm giftCode={giftCode} setGiftCode={setGiftCode} emailInput={emailInput} handleSubmit={handleSubmit} />;
   }
 

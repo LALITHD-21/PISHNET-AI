@@ -341,6 +341,203 @@ const PRE_SEEDED_TEMPLATES: PhishingTemplate[] = [
       "Requests for identity documents should be handled only in approved onboarding systems."
     ],
     landingPageUrl: "/portal/login-simulation?tpl=tpl_internship"
+  },
+  {
+    id: "tpl_mfa_fatigue",
+    name: "MFA Fatigue Push Storm",
+    subject: "Action needed: unusual sign-in blocked by MFA",
+    category: "MFA Fatigue",
+    difficulty: "Expert",
+    sender: "identity-defense@secure-access-review.example",
+    body: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 22px; border: 1px solid #bae6fd; border-radius: 8px;">
+        <h2 style="color:#0369a1;margin-top:0;">Identity Protection Center</h2>
+        <p>We blocked an unusual sign-in attempt from a new device. To prevent repeated authenticator prompts, verify your employee session status.</p>
+        <p style="color:#b45309;font-weight:bold;">If you recently received multiple MFA notifications, approve only the request shown after this verification step.</p>
+        <div style="margin: 22px 0;">
+          <a href="{{SIM_LINK}}" style="background:#0369a1;color:white;padding:12px 18px;border-radius:4px;text-decoration:none;font-weight:bold;">Review MFA Activity</a>
+        </div>
+        <p style="font-size:12px;color:#64748b;">Controlled simulation: real MFA prompts should be reported to security when unexpected.</p>
+      </div>
+    `,
+    indicators: [
+      "Unexpected MFA prompts are often a sign that an attacker already knows a password.",
+      "The message tries to normalize approving future MFA prompts.",
+      "Identity alerts should be opened from the official SSO portal or reported to the SOC."
+    ],
+    landingPageUrl: "/portal/login-simulation?tpl=tpl_mfa_fatigue"
+  },
+  {
+    id: "tpl_docusign_contract",
+    name: "DocuSign Contract Signature Spoof",
+    subject: "Signature required: revised vendor agreement",
+    category: "Credential Harvesting",
+    difficulty: "Medium",
+    sender: "documents@secure-signature-workflow.example",
+    body: `
+      <div style="font-family: Arial, sans-serif; max-width: 590px; padding: 22px; border: 1px solid #facc15;">
+        <h2 style="color:#ca8a04;margin-top:0;">Secure Signature Request</h2>
+        <p>A revised supplier agreement is waiting for your signature. The signing window closes today to keep procurement timelines active.</p>
+        <div style="margin: 22px 0;">
+          <a href="{{SIM_LINK}}" style="background:#ca8a04;color:white;padding:12px 18px;border-radius:4px;text-decoration:none;font-weight:bold;">Open Signature Packet</a>
+        </div>
+        <p style="font-size:12px;color:#64748b;">Training sample: access legal documents through the approved document-management workspace.</p>
+      </div>
+    `,
+    indicators: [
+      "The sender is a generic workflow host instead of a trusted signature platform or legal mailbox.",
+      "Contract urgency pressures users to authenticate before validating the request.",
+      "High-value legal workflows should be confirmed inside the known document system."
+    ],
+    landingPageUrl: "/portal/login-simulation?tpl=tpl_docusign_contract"
+  },
+  {
+    id: "tpl_teams_file",
+    name: "Teams Shared File Access Alert",
+    subject: "A secure file was shared with you in Teams",
+    category: "Credential Harvesting",
+    difficulty: "Medium",
+    sender: "sharepoint-notify@teams-file-gateway.example",
+    body: `
+      <div style="font-family: Segoe UI, Arial, sans-serif; max-width: 590px; padding: 22px; border: 1px solid #c7d2fe;">
+        <h2 style="color:#4f46e5;margin-top:0;">Microsoft Teams File Share</h2>
+        <p>Finance Operations shared a confidential workbook with you: <strong>FY27_Headcount_Adjustments.xlsx</strong>.</p>
+        <p>Please authenticate to view the file and confirm you received access.</p>
+        <div style="margin: 22px 0;">
+          <a href="{{SIM_LINK}}" style="background:#4f46e5;color:white;padding:12px 18px;border-radius:4px;text-decoration:none;font-weight:bold;">Open Shared File</a>
+        </div>
+        <p style="font-size:12px;color:#64748b;">Training sample: inspect file-share URLs and verify sender identity in Teams.</p>
+      </div>
+    `,
+    indicators: [
+      "The sender domain is a lookalike gateway, not the official Microsoft or corporate SharePoint domain.",
+      "Sensitive file names increase curiosity and click-through risk.",
+      "File-share notifications should be verified inside Teams or SharePoint directly."
+    ],
+    landingPageUrl: "/portal/login-simulation?tpl=tpl_teams_file"
+  },
+  {
+    id: "tpl_github_oauth",
+    name: "GitHub OAuth App Authorization",
+    subject: "GitHub security review: OAuth app requires approval",
+    category: "Credential Harvesting",
+    difficulty: "Hard",
+    sender: "security-review@github-access-audit.example",
+    body: `
+      <div style="font-family: Arial, sans-serif; max-width: 590px; padding: 22px; border: 1px solid #d1d5db;">
+        <h2 style="color:#111827;margin-top:0;">Repository Access Review</h2>
+        <p>An OAuth application named <strong>Build Insight Connector</strong> requested repository read/write access for your organization.</p>
+        <p>Review the request before it is auto-denied and your CI token is rotated.</p>
+        <div style="margin: 22px 0;">
+          <a href="{{SIM_LINK}}" style="background:#111827;color:white;padding:12px 18px;border-radius:4px;text-decoration:none;font-weight:bold;">Review OAuth Request</a>
+        </div>
+        <p style="font-size:12px;color:#64748b;">Training sample: approve developer access only inside the official code-hosting console.</p>
+      </div>
+    `,
+    indicators: [
+      "OAuth consent screens can grant broad access even when no password is entered.",
+      "The sender uses a lookalike access-audit domain.",
+      "Development access changes should be verified in the official organization settings."
+    ],
+    landingPageUrl: "/portal/login-simulation?tpl=tpl_github_oauth"
+  },
+  {
+    id: "tpl_vpn_cert",
+    name: "VPN Certificate Renewal Trap",
+    subject: "VPN certificate expires tonight: renew access profile",
+    category: "Credential Harvesting",
+    difficulty: "Hard",
+    sender: "vpn-certificates@network-access-renewal.example",
+    body: `
+      <div style="font-family: Arial, sans-serif; max-width: 590px; padding: 22px; border: 1px solid #fb923c;">
+        <h2 style="color:#ea580c;margin-top:0;">Remote Access Certificate Renewal</h2>
+        <p>Your VPN certificate is scheduled to expire tonight. Remote access will be suspended until your device trust profile is renewed.</p>
+        <div style="margin: 22px 0;">
+          <a href="{{SIM_LINK}}" style="background:#ea580c;color:white;padding:12px 18px;border-radius:4px;text-decoration:none;font-weight:bold;">Renew VPN Profile</a>
+        </div>
+        <p style="font-size:12px;color:#64748b;">Training sample: VPN updates should be initiated from the device management portal or IT help desk.</p>
+      </div>
+    `,
+    indicators: [
+      "Device trust and VPN certificate updates should never begin from an unverified email link.",
+      "The message uses service disruption pressure to force quick action.",
+      "The sender domain is not the company's network-access platform."
+    ],
+    landingPageUrl: "/portal/login-simulation?tpl=tpl_vpn_cert"
+  },
+  {
+    id: "tpl_tax_w2",
+    name: "Tax Document Reissue Request",
+    subject: "W-2 reissue confirmation required",
+    category: "Social Engineering",
+    difficulty: "Medium",
+    sender: "tax-documents@employee-records-service.example",
+    body: `
+      <div style="font-family: Arial, sans-serif; max-width: 590px; padding: 22px; border: 1px solid #bbf7d0;">
+        <h2 style="color:#15803d;margin-top:0;">Employee Tax Records</h2>
+        <p>Your tax document reissue request is pending identity confirmation. Confirm your profile to release the corrected W-2 packet.</p>
+        <div style="margin: 22px 0;">
+          <a href="{{SIM_LINK}}" style="background:#15803d;color:white;padding:12px 18px;border-radius:4px;text-decoration:none;font-weight:bold;">Confirm Tax Profile</a>
+        </div>
+        <p style="font-size:12px;color:#64748b;">Training sample: tax records should be accessed through official payroll systems only.</p>
+      </div>
+    `,
+    indicators: [
+      "Tax-season messages exploit anxiety around personal financial records.",
+      "The sender domain is a generic records service rather than the approved payroll platform.",
+      "Identity confirmation should be completed only in the known HR or payroll portal."
+    ],
+    landingPageUrl: "/portal/login-simulation?tpl=tpl_tax_w2"
+  },
+  {
+    id: "tpl_deepfake_voice",
+    name: "Deepfake Voice Callback Escalation",
+    subject: "Voice memo from executive office: action required",
+    category: "Deepfake",
+    difficulty: "Expert",
+    sender: "voice-relay@executive-assistant-routing.example",
+    body: `
+      <div style="font-family: Arial, sans-serif; max-width: 590px; padding: 22px; border: 1px solid #fda4af;">
+        <h2 style="color:#be123c;margin-top:0;">Executive Voice Relay</h2>
+        <p>A short voice memo from the executive office is waiting. The message references an urgent supplier exception and requires immediate acknowledgement.</p>
+        <div style="margin: 18px 0; padding: 12px; background:#fff1f2; border:1px solid #fecdd3; color:#9f1239; font-weight:bold;">
+          Audio preview unavailable in browser. Verify access to continue.
+        </div>
+        <a href="{{SIM_LINK}}" style="background:#be123c;color:white;padding:12px 18px;border-radius:4px;text-decoration:none;font-weight:bold;">Open Voice Memo</a>
+        <p style="font-size:12px;color:#64748b;margin-top:18px;">Training sample: verify urgent voice requests through trusted callback paths.</p>
+      </div>
+    `,
+    indicators: [
+      "Voice and deepfake lures can imitate authority and urgency across channels.",
+      "The relay sender is not an approved executive communications system.",
+      "High-risk requests should be verified using a known phone number, not the provided link."
+    ],
+    landingPageUrl: "/portal/login-simulation?tpl=tpl_deepfake_voice"
+  },
+  {
+    id: "tpl_password_manager",
+    name: "Password Manager Vault Share",
+    subject: "Secure vault item shared: finance-admin",
+    category: "Credential Harvesting",
+    difficulty: "Hard",
+    sender: "vault-share@password-manager-access.example",
+    body: `
+      <div style="font-family: Arial, sans-serif; max-width: 590px; padding: 22px; border: 1px solid #a7f3d0;">
+        <h2 style="color:#047857;margin-top:0;">Secure Vault Share</h2>
+        <p>A privileged vault item named <strong>finance-admin</strong> has been shared with you for temporary access.</p>
+        <p>Unlock the item before the share link expires.</p>
+        <div style="margin: 22px 0;">
+          <a href="{{SIM_LINK}}" style="background:#047857;color:white;padding:12px 18px;border-radius:4px;text-decoration:none;font-weight:bold;">Unlock Vault Item</a>
+        </div>
+        <p style="font-size:12px;color:#64748b;">Training sample: open password-manager shares only inside the official app.</p>
+      </div>
+    `,
+    indicators: [
+      "Password-manager lures exploit trust in security tools.",
+      "Privileged-sounding item names trigger curiosity and urgency.",
+      "Vault links should be opened from the official password manager, not email buttons."
+    ],
+    landingPageUrl: "/portal/login-simulation?tpl=tpl_password_manager"
   }
 ];
 
