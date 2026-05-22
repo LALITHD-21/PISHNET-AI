@@ -128,7 +128,6 @@ interface SimContextType {
   submitCredentials: (employeeEmail: string, campaignId: string) => void;
   completeTrainingCourse: (courseId: string, score: number) => void;
   sendChatMessage: (text: string) => void;
-  runPrototypeDemo: () => void;
   clearLogs: () => void;
   resetAllData: () => void;
 }
@@ -1054,179 +1053,6 @@ export const SimProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // 6. Maintenance actions
-  const runPrototypeDemo = () => {
-    const demoCampaignId = "camp_problem_demo";
-    const demoCampaignName = "Judge Demo - Enterprise Human Firewall Drill";
-    const now = Date.now();
-    const targetDepartments = PRE_SEEDED_DEPARTMENTS.map((dept) => dept.name);
-    const targetEmployees = PRE_SEEDED_EMPLOYEES.filter((employee) => targetDepartments.includes(employee.department));
-
-    const eventPlan: Array<{
-      employeeEmail: string;
-      action: SimLog["action"];
-      details: string;
-      severity: SimLog["severity"];
-    }> = [
-      { employeeEmail: "dvance@enterprise.com", action: "OPENED", details: "Finance user opened Microsoft 365 verification simulation.", severity: "low" },
-      { employeeEmail: "dvance@enterprise.com", action: "CLICKED", details: "Finance user clicked the simulated SSO verification link.", severity: "high" },
-      { employeeEmail: "dvance@enterprise.com", action: "CREDENTIALS_SUBMITTED", details: "SAFE SIMULATION: Finance user entered demo credentials on the training portal.", severity: "critical" },
-      { employeeEmail: "sconnor@enterprise.com", action: "OPENED", details: "HR user opened payroll change simulation.", severity: "low" },
-      { employeeEmail: "sconnor@enterprise.com", action: "CLICKED", details: "HR user clicked payroll verification call-to-action.", severity: "high" },
-      { employeeEmail: "sconnor@enterprise.com", action: "CREDENTIALS_SUBMITTED", details: "SAFE SIMULATION: HR user submitted demo form data.", severity: "critical" },
-      { employeeEmail: "bwayne@enterprise.com", action: "OPENED", details: "Finance manager opened vendor remittance simulation.", severity: "low" },
-      { employeeEmail: "bwayne@enterprise.com", action: "CLICKED", details: "Finance manager clicked payment-change document link.", severity: "high" },
-      { employeeEmail: "bwayne@enterprise.com", action: "CREDENTIALS_SUBMITTED", details: "SAFE SIMULATION: Payment-change portal captured only demo telemetry.", severity: "critical" },
-      { employeeEmail: "ckent@enterprise.com", action: "OPENED", details: "HR employee opened fake executive request.", severity: "low" },
-      { employeeEmail: "ckent@enterprise.com", action: "CLICKED", details: "HR employee clicked suspicious executive communication.", severity: "high" },
-      { employeeEmail: "skyle@enterprise.com", action: "OPENED", details: "Sales user opened fake Zoom invite.", severity: "low" },
-      { employeeEmail: "skyle@enterprise.com", action: "CLICKED", details: "Sales user clicked fake meeting lobby link.", severity: "high" },
-      { employeeEmail: "jconnor@enterprise.com", action: "REPORTED", details: "Engineering user reported the suspicious SSO email.", severity: "low" },
-      { employeeEmail: "tstark@enterprise.com", action: "REPORTED", details: "Engineering user reported MFA fatigue simulation before clicking.", severity: "low" },
-      { employeeEmail: "gstacy@enterprise.com", action: "REPORTED", details: "Engineering user reported QR phishing simulation from the mailbox.", severity: "low" },
-      { employeeEmail: "dprince@enterprise.com", action: "OPENED", details: "Operations user opened the simulated invoice message but did not click.", severity: "low" }
-    ];
-
-    const deliveryLogs: SimLog[] = targetEmployees.map((employee, index) => ({
-      id: `log_demo_delivered_${employee.id}_${now}`,
-      timestamp: new Date(now + index * 1000).toISOString(),
-      campaignName: demoCampaignName,
-      employeeName: employee.name,
-      employeeEmail: employee.email,
-      department: employee.department,
-      action: "DELIVERED",
-      details: `Judge demo payload delivered safely to ${employee.email}`,
-      severity: "info"
-    }));
-
-    const actionLogs: SimLog[] = eventPlan.map((event, index) => {
-      const employee = PRE_SEEDED_EMPLOYEES.find((candidate) => candidate.email === event.employeeEmail);
-
-      return {
-        id: `log_demo_action_${index}_${now}`,
-        timestamp: new Date(now + (targetEmployees.length + index + 1) * 1000).toISOString(),
-        campaignName: demoCampaignName,
-        employeeName: employee?.name || "Unknown Employee",
-        employeeEmail: event.employeeEmail,
-        department: employee?.department || "Unknown",
-        action: event.action,
-        details: event.details,
-        severity: event.severity
-      };
-    });
-
-    const compromisedEmails = new Set(["dvance@enterprise.com", "sconnor@enterprise.com", "bwayne@enterprise.com"]);
-    const clickedOnlyEmails = new Set(["ckent@enterprise.com", "skyle@enterprise.com"]);
-    const reporterEmails = new Set(["jconnor@enterprise.com", "tstark@enterprise.com", "gstacy@enterprise.com"]);
-
-    const updatedEmployees = PRE_SEEDED_EMPLOYEES.map((employee) => {
-      if (compromisedEmails.has(employee.email)) {
-        return {
-          ...employee,
-          riskScore: Math.min(100, Math.max(employee.riskScore + 18, 90)),
-          failedCount: employee.failedCount + 2
-        };
-      }
-
-      if (clickedOnlyEmails.has(employee.email)) {
-        return {
-          ...employee,
-          riskScore: Math.min(100, employee.riskScore + 20),
-          failedCount: employee.failedCount + 1
-        };
-      }
-
-      if (reporterEmails.has(employee.email)) {
-        const badges = Array.from(new Set([...employee.badges, "Phish Detector", "Human Firewall"]));
-
-        return {
-          ...employee,
-          riskScore: Math.max(5, employee.riskScore - 15),
-          passedCount: employee.passedCount + 1,
-          badges
-        };
-      }
-
-      return employee;
-    });
-
-    const updatedDepartments = PRE_SEEDED_DEPARTMENTS.map((department) => {
-      const deptEmployees = targetEmployees.filter((employee) => employee.department === department.name);
-      const deptEvents = eventPlan.filter((event) => {
-        const employee = PRE_SEEDED_EMPLOYEES.find((candidate) => candidate.email === event.employeeEmail);
-        return employee?.department === department.name;
-      });
-
-      const emailsSent = department.emailsSent + deptEmployees.length;
-      const emailsOpened = department.emailsOpened + deptEvents.filter((event) => event.action === "OPENED").length;
-      const linksClicked = department.linksClicked + deptEvents.filter((event) => event.action === "CLICKED").length;
-      const credentialsSubmitted = department.credentialsSubmitted + deptEvents.filter((event) => event.action === "CREDENTIALS_SUBMITTED").length;
-      const emailsReported = department.emailsReported + deptEvents.filter((event) => event.action === "REPORTED").length;
-      const clickRatio = linksClicked / Math.max(1, emailsSent);
-      const submitRatio = credentialsSubmitted / Math.max(1, emailsSent);
-      const reportRatio = emailsReported / Math.max(1, emailsSent);
-      const riskScore = Math.max(8, Math.min(100, Math.round(25 + clickRatio * 60 + submitRatio * 90 - reportRatio * 35)));
-
-      return {
-        ...department,
-        emailsSent,
-        emailsOpened,
-        linksClicked,
-        credentialsSubmitted,
-        emailsReported,
-        riskScore
-      };
-    });
-
-    const demoCampaign: Campaign = {
-      id: demoCampaignId,
-      name: demoCampaignName,
-      status: "Active",
-      templateId: "tpl_qr",
-      targetDepartments,
-      emailsSent: targetEmployees.length,
-      emailsOpened: eventPlan.filter((event) => event.action === "OPENED").length,
-      linksClicked: eventPlan.filter((event) => event.action === "CLICKED").length,
-      credentialsSubmitted: eventPlan.filter((event) => event.action === "CREDENTIALS_SUBMITTED").length,
-      emailsReported: eventPlan.filter((event) => event.action === "REPORTED").length,
-      createdAt: new Date(now).toISOString()
-    };
-
-    const updatedCampaigns: Campaign[] = [
-      demoCampaign,
-      ...PRE_SEEDED_CAMPAIGNS.map((campaign) => ({ ...campaign, status: "Completed" as const }))
-    ];
-
-    const demoLogs = [...deliveryLogs, ...actionLogs].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-    const updatedLogs = [...demoLogs, ...PRE_SEEDED_LOGS];
-
-    const updatedCourses = PRE_SEEDED_COURSES.map((course) => {
-      if (course.id === "course_phish_basics" || course.id === "course_credential_safety" || course.id === "course_advanced_scams") {
-        return { ...course, status: "Assigned" as const, progress: Math.max(course.progress, 35) };
-      }
-
-      return course;
-    });
-
-    const updatedChat: ChatMessage[] = [
-      {
-        id: `msg_demo_ai_${now}`,
-        sender: "ai",
-        text: "### Executive Demo Brief\nThe judge demo is live. PhishNet AI launched a safe enterprise-wide simulation, captured employee behavior, elevated three users into critical risk, rewarded three reporters, and assigned adaptive training automatically.\n\n**Recommended next step**: open Risk Intelligence, Awareness, AI Cyber Assistant, and Reports to show the full loop.",
-        timestamp: new Date(now).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-      }
-    ];
-
-    setDepartments(updatedDepartments);
-    setEmployees(updatedEmployees);
-    setCampaigns(updatedCampaigns);
-    setLogs(updatedLogs);
-    setTrainingCourses(updatedCourses);
-    setChatMessages(updatedChat);
-    setActiveCampaignId(demoCampaignId);
-
-    triggerSave(currentUser, updatedDepartments, updatedEmployees, updatedCampaigns, updatedLogs, updatedChat, updatedCourses, demoCampaignId);
-  };
-
   const clearLogs = () => {
     setLogs([]);
     triggerSave(currentUser, departments, employees, campaigns, []);
@@ -1445,7 +1271,6 @@ export const SimProvider = ({ children }: { children: ReactNode }) => {
         submitCredentials,
         completeTrainingCourse,
         sendChatMessage,
-        runPrototypeDemo,
         clearLogs,
         resetAllData
       }}
