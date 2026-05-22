@@ -1,42 +1,334 @@
-# PhishNet AI - Human Firewall Intelligence Platform
+<div align="center">
 
-PhishNet AI is a full-stack, enterprise-style cybersecurity awareness platform for safe phishing simulations, human risk scoring, adaptive training, and SOC-level cyber posture monitoring.
+# PhishNet AI
 
-The application is designed to look and feel like a premium cybersecurity product: dark SOC dashboard UI, animated threat map, radar scanner, realtime event feed, AI assistant, reports, training portal, simulation lab, and deployment-ready service architecture.
+## Human Firewall Intelligence Platform
 
-## Important Safety Boundary
+An enterprise-grade AI-powered phishing simulation, cyber-awareness training, and human risk intelligence platform built with a futuristic SOC command center experience.
 
-PhishNet AI is a controlled awareness-training simulator.
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-AI_Service-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Ready-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
-- It does not send real phishing emails.
-- It does not collect or store real passwords.
-- It does not collect real MFA codes, bank data, gift card codes, or identity documents.
-- Fake login pages record only the simulation event, for example `CLICKED` or `CREDENTIALS_SUBMITTED`.
-- All phishing examples are for authorized internal security training only.
-- In production, all campaigns should be limited to approved company-owned domains and consented users.
+**Simulate phishing safely. Measure human risk intelligently. Train employees automatically.**
 
-## What The App Does
+</div>
 
-Organizations can use PhishNet AI to:
+---
 
-- Create phishing simulation campaigns.
-- Select realistic phishing templates.
-- Target departments.
-- Launch controlled campaigns.
-- Simulate employee email opens, clicks, reports, and credential-submission mistakes.
-- Calculate employee and department cyber risk scores.
-- Identify risky users and departments.
-- Automatically assign training after unsafe behavior.
-- Let employees complete quizzes and earn badges.
-- Ask an AI cyber assistant for security insights.
-- Generate executive reports and export CSV data.
-- Monitor everything through a futuristic SOC command center.
+## Executive Summary
+
+PhishNet AI is a premium cybersecurity awareness platform that helps organizations understand and improve their weakest attack surface: human behavior.
+
+Security teams can launch safe phishing simulations, monitor how employees respond, calculate human cyber risk scores, identify vulnerable departments, trigger adaptive training, and generate executive-ready reports from a realtime SOC-style dashboard.
+
+The product is built as a polished hackathon-ready enterprise application with:
+
+- A futuristic SOC command center
+- Realistic but safe phishing simulations
+- AI-assisted template generation
+- Employee and department risk intelligence
+- Adaptive awareness training
+- Gamified employee portal
+- Reports and CSV exports
+- Realtime demo analytics
+- Production-ready backend, AI service, Prisma schema, and Docker setup
+
+---
+
+## The One-Line Pitch
+
+**PhishNet AI turns phishing simulations into realtime human cyber-risk intelligence, then automatically trains employees before attackers can exploit them.**
+
+---
+
+## Why This Matters
+
+Most cyberattacks do not begin with advanced malware. They begin with a person clicking the wrong link, trusting a fake login page, scanning a malicious QR code, or approving an unexpected MFA prompt.
+
+PhishNet AI helps organizations answer critical questions:
+
+- Which employees are most vulnerable?
+- Which departments create the highest cyber risk?
+- Which phishing themes are most effective against the organization?
+- Who reports suspicious emails quickly?
+- Who needs immediate awareness training?
+- Is the human firewall getting stronger over time?
+
+---
+
+## What It Does
+
+| Capability | What It Means |
+| --- | --- |
+| Phishing Campaigns | Create, schedule, and launch safe simulation campaigns |
+| AI Email Templates | Generate realistic training emails for different scenarios |
+| Fake Login Simulation | Show safe fake portals without storing real secrets |
+| Human Risk Scores | Score employees based on clicks, reports, submissions, and training |
+| Department Intelligence | Identify risky teams and compare security posture |
+| SOC Dashboard | Monitor live campaigns, alerts, radar, maps, and metrics |
+| Adaptive Training | Assign courses automatically after unsafe behavior |
+| AI Cyber Assistant | Ask natural-language security questions about current data |
+| Advanced Lab | Demonstrate MFA fatigue, QR phishing, deepfake voice, and attachment attacks |
+| Reports | Export campaign, employee, department, and event data |
+
+---
+
+## How The Platform Works
+
+```mermaid
+flowchart LR
+    A["Admin creates campaign"] --> B["Select phishing template"]
+    B --> C["Choose target departments"]
+    C --> D["Launch safe simulation"]
+    D --> E["Employees receive simulated emails"]
+    E --> F{"Employee action"}
+    F --> G["Reports email"]
+    F --> H["Clicks link"]
+    F --> I["Submits simulated data"]
+    G --> J["Risk decreases"]
+    H --> K["Risk increases"]
+    I --> L["Risk becomes high or critical"]
+    K --> M["Training assigned"]
+    L --> M
+    J --> N["SOC dashboard updates"]
+    M --> N
+    N --> O["Reports and AI insights"]
+```
+
+---
+
+## Core User Journey
+
+1. A security admin logs in and passes MFA.
+2. The admin creates a phishing campaign.
+3. The admin selects a realistic template, such as Microsoft 365, HR payroll, invoice fraud, CEO impersonation, QR phishing, or fake Zoom.
+4. The admin targets one or more departments.
+5. The campaign launches in safe demo mode.
+6. Employees see simulated phishing emails in the employee portal.
+7. Employees can report the email, click the payload, or submit demo input in a fake portal.
+8. The platform updates live metrics, logs, risk scores, and department posture.
+9. Risky employees are assigned training automatically.
+10. Employees complete quizzes, earn badges, and reduce their risk.
+11. Executives receive reports showing human firewall improvement.
+
+---
+
+## Product Screens And Routes
+
+| Route | Purpose |
+| --- | --- |
+| `/` | Premium landing page with animated cyber visuals |
+| `/login` | Role-based login gateway |
+| `/signup` | Organization onboarding simulation |
+| `/forgot-password` | Secure password recovery simulation |
+| `/mfa` | MFA verification flow |
+| `/dashboard/soc` | Realtime SOC command center |
+| `/dashboard/campaigns` | Campaign creation and launch |
+| `/dashboard/templates` | Template library and AI synthesizer |
+| `/dashboard/risk` | Human risk intelligence |
+| `/dashboard/analytics` | Executive analytics center |
+| `/dashboard/training` | Awareness training overview |
+| `/dashboard/ai-coach` | AI cyber assistant |
+| `/dashboard/lab` | Advanced phishing simulation lab |
+| `/dashboard/reports` | Reports and CSV exports |
+| `/dashboard/profile` | Operator profile and RBAC view |
+| `/dashboard/settings` | Enterprise security controls |
+| `/portal` | Employee awareness portal |
+| `/portal/login-simulation` | Safe phishing landing pages |
+
+---
+
+## Main Modules Explained
+
+### 1. SOC Command Center
+
+The SOC dashboard is the heart of the platform. It gives analysts a realtime view of the organization's human attack surface.
+
+It includes:
+
+- Cyber resilience score
+- Click-through rate
+- Credential-submission simulation count
+- Reporting rate
+- Live event feed
+- Animated threat map
+- Cyber radar scanner
+- Department posture charts
+- Historical campaign comparison
+
+### 2. Campaign Engine
+
+Admins can build campaigns by choosing a template and target departments. When launched, the system creates simulated delivery events and starts tracking employee behavior.
+
+Campaign metrics include:
+
+- Sent
+- Opened
+- Clicked
+- Submitted
+- Reported
+
+### 3. Template Manager
+
+The template manager contains realistic awareness-training templates:
+
+- Microsoft 365 password expiry
+- HR payroll verification
+- Bank verification
+- Invoice fraud
+- QR phishing
+- CEO impersonation
+- Fake Zoom invite
+- Internship scam
+
+The AI-style generator can synthesize safe training emails based on audience, scenario, and urgency.
+
+### 4. Human Risk Intelligence
+
+Every employee receives a dynamic cyber risk score. The score changes based on behavior:
+
+| Behavior | Risk Impact |
+| --- | --- |
+| Reports suspicious email | Risk decreases |
+| Completes training | Risk decreases |
+| Clicks simulation link | Risk increases |
+| Submits demo data | Risk increases sharply |
+| Repeated failures | Risk increases over time |
+
+Risk categories:
+
+- Safe
+- Medium Risk
+- High Risk
+- Critical
+
+### 5. Employee Portal
+
+Employees use the portal to interact with simulations and training.
+
+They can:
+
+- Read simulated phishing emails
+- Report suspicious messages
+- Click safe simulation links
+- See immediate education screens
+- Complete quizzes
+- Earn badges
+- View leaderboard position
+
+### 6. Adaptive Training
+
+Training is assigned automatically when an employee fails a simulation. Courses include lessons, quizzes, pass/fail logic, badge rewards, and risk-score reduction.
+
+Example modules:
+
+- Introduction to Phishing and Social Engineering
+- Credential Harvesting Protection
+- Advanced Scams: QR Codes and MFA Fatigue
+
+### 7. AI Cyber Assistant
+
+The AI assistant reads the current simulation state and answers security questions such as:
+
+```text
+Show risky departments
+Predict vulnerable users
+Generate phishing report
+Explain phishing indicators
+Analyze security posture
+```
+
+### 8. Advanced Phishing Lab
+
+The lab safely demonstrates modern attacks:
+
+- MFA fatigue attacks
+- QR phishing attacks
+- Deepfake voice phishing
+- Malicious attachment analysis
+
+This makes the platform not only a dashboard, but also an interactive cyber-awareness learning environment.
+
+### 9. Reports Center
+
+The reports center turns simulation data into leadership-ready intelligence.
+
+Exports include:
+
+- Campaign analytics CSV
+- Employee risk CSV
+- Threat event logs CSV
+- Department risk CSV
+- Print-ready executive report
+
+---
+
+## Safe Simulation Design
+
+PhishNet AI is intentionally built with safety guardrails.
+
+Fake portals show realistic training screens, but they do not store real submitted values.
+
+The system records only the event:
+
+```text
+Employee clicked link
+Employee submitted simulated credentials
+Employee reported phishing email
+```
+
+This makes it useful for ethical internal training while avoiding dangerous credential collection.
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TB
+    subgraph Frontend["Next.js Frontend"]
+        L["Landing Page"]
+        D["SOC Dashboard"]
+        C["Campaign Manager"]
+        E["Employee Portal"]
+        R["Reports"]
+    end
+
+    subgraph State["Demo Simulation Engine"]
+        S["React Context"]
+        LS["localStorage"]
+        T["Realtime Simulation Ticker"]
+    end
+
+    subgraph Backend["Production-Ready Services"]
+        API["Express API"]
+        IO["Socket.IO"]
+        AI["FastAPI AI Service"]
+        DB["PostgreSQL + Prisma"]
+    end
+
+    Frontend --> State
+    State --> L
+    State --> D
+    State --> C
+    State --> E
+    State --> R
+    Frontend -. optional .-> API
+    API --> IO
+    API --> DB
+    API --> AI
+```
+
+---
 
 ## Tech Stack
 
 ### Frontend
 
-- Next.js 15 App Router
+- Next.js 15
 - React 19
 - TypeScript
 - Tailwind CSS
@@ -44,43 +336,48 @@ Organizations can use PhishNet AI to:
 - Recharts
 - Lucide Icons
 
-### Backend Architecture
+### Backend
 
 - Node.js
 - Express.js
 - Socket.IO
-- JWT authentication
-- RBAC authorization
+- JWT
+- RBAC
+- Helmet
 - Rate limiting
-- Helmet security headers
 
-### AI Layer
+### AI Service
 
-- Python FastAPI service
+- Python
+- FastAPI
 - OpenAI API support
-- Local deterministic fallback when no OpenAI key is configured
-- Risk scoring endpoint
-- Safe phishing-template generation endpoint
+- Deterministic fallback mode
 
 ### Database
 
 - PostgreSQL
-- Prisma schema
-- Models for users, departments, campaigns, templates, events, risk scores, training, notifications, and audit logs
+- Prisma ORM schema
 
 ### Deployment
 
 - Docker
 - Docker Compose
 - Vercel-ready frontend
-- Railway/Supabase-ready service and database architecture
+- Railway/Supabase-ready backend and database
+
+---
 
 ## Quick Start
 
-Install dependencies and run the frontend demo:
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Start the app:
+
+```bash
 npm run dev
 ```
 
@@ -90,633 +387,158 @@ Open:
 http://localhost:3001
 ```
 
-Demo MFA accepts any 6-digit code, such as:
+---
+
+## Demo Login Details
+
+Any 6-digit MFA code works in demo mode.
+
+Example:
 
 ```text
 123456
 ```
 
-## Demo Login Accounts
-
-| Role | Email | Purpose |
-| --- | --- | --- |
-| Super Admin | `admin@enterprise.com` | Full SOC, campaign, risk, report, and settings access |
-| SOC Analyst | `analyst@enterprise.com` | Campaign and threat-intelligence workflow |
-| Department Manager | `manager@enterprise.com` | Department-level risk review |
-| High-risk Employee | `dvance@enterprise.com` | Employee portal demo with risky behavior |
-| Low-risk Employee | `tstark@enterprise.com` | Employee portal demo with strong awareness posture |
-
-## How The Application Works
-
-PhishNet AI has two main experiences:
-
-1. Admin/SOC experience
-2. Employee awareness experience
-
-The admin creates and launches campaigns. The employee receives simulated phishing emails in the employee portal. Employee behavior updates the SOC dashboard, risk engine, training system, and reports in real time.
-
-## End-To-End Simulation Flow
-
-1. Admin logs in through `/login`.
-2. Admin completes MFA at `/mfa`.
-3. Admin opens `/dashboard/campaigns`.
-4. Admin creates a campaign by selecting:
-   - Campaign name
-   - Phishing template
-   - Target departments
-5. Admin launches the campaign.
-6. The app creates simulated delivery logs for employees in the targeted departments.
-7. The SOC dashboard starts showing campaign activity.
-8. A background simulation ticker creates realistic events every few seconds:
-   - Email opened
-   - Link clicked
-   - Credentials submitted in a safe fake portal
-   - Phishing email reported
-9. Employee risk scores and department risk scores update.
-10. If an employee clicks or submits data, training gets assigned.
-11. The employee completes training and quizzes.
-12. The employee earns badges and reduces risk.
-13. Reports can be exported for leadership.
-
-## Demo Mode
-
-The frontend is fully functional without a live database.
-
-Demo state is stored in:
-
-```text
-localStorage
-```
-
-This means campaigns, logs, chat history, training progress, and risk scores survive page refreshes during the demo.
-
-The main simulation engine is:
-
-```text
-src/context/SimContext.tsx
-```
-
-It contains:
-
-- Seeded employees
-- Seeded departments
-- Seeded phishing templates
-- Seeded campaigns
-- Seeded logs
-- Training courses
-- Risk score updates
-- Campaign launch logic
-- Employee click/report/submit logic
-- AI assistant responses
-- Realtime simulation ticker
-
-## Application Modules
-
-### 1. Landing Page
-
-Route:
-
-```text
-/
-```
-
-The landing page presents the product as a premium cybersecurity platform. It includes:
-
-- Animated cyber particles
-- Cyber grid background
-- Live threat map
-- SOC dashboard preview
-- Product feature sections
-- Call-to-action links for login and employee portal
-
-Main file:
-
-```text
-src/app/page.tsx
-```
-
-### 2. Authentication System
-
-Routes:
-
-```text
-/login
-/signup
-/forgot-password
-/mfa
-```
-
-The authentication flow is demo-ready and simulates:
-
-- Login
-- Signup
-- Password recovery
-- MFA verification
-- Role selection
-- Session persistence through localStorage
-
-Roles:
-
-- Super Admin
-- Security Analyst
-- Department Manager
-- Employee
-
-In demo mode, MFA accepts any 6-digit code.
-
-### 3. SOC Command Center
-
-Route:
-
-```text
-/dashboard/soc
-```
-
-This is the main security operations dashboard.
-
-It shows:
-
-- Cyber resilience ratio
-- Campaign click-through rate
-- Credential compromise count
-- Reporting rate
-- Live threat map
-- Realtime cyber radar
-- Department posture chart
-- Campaign history chart
-- Live event ticker
-
-When campaigns are active, widgets update as simulated events are created.
-
-### 4. Campaign Management
-
-Route:
-
-```text
-/dashboard/campaigns
-```
-
-Admins can:
-
-- Create a phishing campaign
-- Select a template
-- Select target departments
-- Save draft campaigns
-- Launch campaigns
-- View active campaign performance
-- Review historical campaigns
-
-Launching a campaign creates delivery logs for all employees in the selected departments.
-
-### 5. Template Manager And AI Lab
-
-Route:
-
-```text
-/dashboard/templates
-```
-
-This module contains a library of phishing simulation templates:
-
-- Microsoft 365 login scam
-- HR payroll phishing
-- Bank verification scam
-- Invoice fraud
-- QR phishing
-- CEO impersonation
-- Fake Zoom invite
-- Internship scam
-
-It also includes a local AI-style template synthesizer that creates safe demo phishing content with:
-
-- Subject line
-- Sender mask
-- Email body
-- Training indicators
-- Simulated cognitive trigger logs
-
-### 6. Human Risk Intelligence
-
-Route:
-
-```text
-/dashboard/risk
-```
-
-This module tracks employee and department risk.
-
-It analyzes:
-
-- Email opens
-- Link clicks
-- Simulated credential submissions
-- Reports
-- Failed simulations
-- Passed simulations
-- Training completion
-- Badges
-
-Risk categories:
-
-- Safe
-- Medium Risk
-- High Risk
-- Critical
-
-The page includes:
-
-- Department risk cards
-- Radar chart
-- Risk distribution chart
-- Sortable employee risk register
-- Department filters
-- Search
-
-### 7. Analytics Center
-
-Route:
-
-```text
-/dashboard/analytics
-```
-
-This is the executive analytics layer.
-
-It includes:
-
-- Human firewall index
-- Average risk score
-- Click-through rate
-- Self-report rate
-- Campaign performance fabric
-- Risk classification mix
-- Event velocity by time window
-- Department behavior heatmap
-- AI-generated executive observations
-
-### 8. Awareness Training
-
-Routes:
-
-```text
-/dashboard/training
-/portal
-```
-
-Admins can view training performance from the dashboard.
-
-Employees complete assigned courses in the employee portal.
-
-Training features:
-
-- Course catalog
-- Assigned/locked/completed states
-- Lessons
-- Quizzes
-- Passing score logic
-- Badge rewards
-- Leaderboard
-- Risk reduction after completion
-
-Example courses:
-
-- Introduction to Phishing and Social Engineering
-- Credential Harvesting Protection
-- Advanced Scams: QR Codes and MFA Fatigue
-
-### 9. AI Cyber Assistant
-
-Route:
-
-```text
-/dashboard/ai-coach
-```
-
-The AI assistant analyzes current simulation data and answers commands such as:
-
-- `Show risky departments`
-- `Analyze phishing trends`
-- `Generate phishing report`
-- `Predict vulnerable users`
-- `Explain phishing indicators`
-
-In demo mode, responses are generated locally from current app state.
-
-The optional FastAPI service can also support AI template generation and risk scoring.
-
-### 10. Advanced Phishing Lab
-
-Route:
-
-```text
-/dashboard/lab
-```
-
-This module safely demonstrates modern attack patterns:
-
-- MFA fatigue attack
-- QR phishing attack
-- Deepfake voice phishing
-- Malicious attachment sandbox analysis
-
-Each lab is interactive and educational. It explains what the attack would look like and how employees should respond.
-
-### 11. Reports Center
-
-Route:
-
-```text
-/dashboard/reports
-```
-
-Reports include:
-
-- Executive security briefing
-- Campaign analytics
-- Employee risk profiles
-- Department risk assessment
-- Threat event logs
-- Top risky employees
-- Department risk ranking
-
-Exports:
-
-- CSV downloads
-- Browser print support for PDF-style reports
-
-### 12. Employee Portal
-
-Route:
-
-```text
-/portal
-```
-
-Employees can:
-
-- View simulated phishing emails
-- Open a simulation email
-- Report the email
-- Click the simulated payload
-- See safe fake login pages
-- Learn which red flags they missed
-- Complete assigned training
-- Earn badges
-- View leaderboard
-
-If the employee reports the message, their risk goes down.
-
-If the employee clicks or submits data in a fake portal, their risk goes up and training gets assigned.
-
-### 13. Safe Fake Login Portals
-
-Route:
-
-```text
-/portal/login-simulation
-```
-
-These portals simulate realistic phishing landing pages but include safety boundaries.
-
-They show:
-
-- Microsoft-style login flow
-- HR payroll form
-- Executive directive portal
-- Training simulation warning banner
-- Post-submission education screen
-
-The education screen explains:
-
-- What attack type occurred
-- Which red flags were missed
-- What a real attacker could have gained
-- Which remediation training was assigned
-
-No actual secrets are stored.
-
-### 14. Settings And Profile
-
-Routes:
-
-```text
-/dashboard/settings
-/dashboard/profile
-```
-
-Settings includes:
-
-- MFA enforcement toggle
-- RBAC enforcement toggle
-- Safe simulation guardrails
-- Audit streaming
-- Adaptive training
-- Executive digest
-- Webhook integration readiness
-- Approved-domain lock
-- Audit retention settings
-- Critical risk threshold
-
-Profile includes:
-
-- Operator identity
-- Current role
-- MFA status
-- RBAC permissions
-- Security telemetry
-- Employee risk profile when applicable
-
-## Realtime Behavior
-
-Realtime behavior happens in two ways.
-
-### Frontend Demo Realtime
-
-The frontend simulation engine runs a background timer. When a campaign is active, it randomly generates employee behavior based on each employee profile:
-
-- Some employees are more likely to click.
-- Some employees are more likely to report.
-- Some employees have higher vulnerability factors.
-
-This drives:
-
-- SOC dashboard updates
-- Threat map animations
-- Radar points
-- Event feed updates
-- Risk score changes
-- Campaign metric changes
-
-### Backend Realtime Architecture
-
-The optional Express backend includes Socket.IO.
-
-It can emit:
-
-- `simulation:event`
-- `soc:event`
-- Campaign room events
-
-Backend file:
-
-```text
-server/src/index.ts
-```
-
-## Risk Scoring Logic
-
-Employee risk increases when:
-
-- They click simulated phishing links.
-- They submit data into a fake portal.
-- They repeatedly fail simulations.
-
-Employee risk decreases when:
-
-- They report phishing emails.
-- They complete training.
-- They earn awareness badges.
-
-Department risk is recalculated using:
-
-- Click ratio
-- Submission ratio
-- Report ratio
-- Total simulation volume
-
-The optional AI service includes a `/risk-score` endpoint for production-style scoring.
-
-## AI Service
-
-The FastAPI service is located at:
-
-```text
-ai-service/main.py
-```
-
-It provides:
-
-- `GET /health`
-- `POST /risk-score`
-- `POST /generate-template`
-
-If `OPENAI_API_KEY` is configured, the service can call OpenAI.
-
-If no key is configured, it still works with deterministic fallback responses.
-
-This makes the project demo-friendly and deployment-friendly.
-
-## Express API
-
-The Express API is located at:
-
-```text
-server/src/index.ts
-```
-
-It provides:
-
-- `GET /health`
-- `POST /auth/login`
-- `GET /campaigns`
-- `POST /campaigns`
-- `POST /campaigns/:id/launch`
-- `POST /events`
-- `GET /analytics/overview`
-
-Security features:
-
-- JWT signing
-- RBAC middleware
-- Rate limiting
-- Helmet headers
-- CORS configuration
-- Sanitized event storage
-- IP hashing design
-- No secret capture
-
-## Database Design
-
-The Prisma schema is located at:
-
-```text
-prisma/schema.prisma
-```
-
-It includes models for:
-
-- `Organization`
-- `User`
-- `Department`
-- `Campaign`
-- `CampaignDepartment`
-- `PhishingTemplate`
-- `EmailLog`
-- `ClickEvent`
-- `CredentialAttempt`
-- `RiskScore`
-- `AnalyticsSnapshot`
-- `TrainingModule`
-- `UserTraining`
-- `Notification`
-- `AuditLog`
-
-Credential attempts store only that a simulated submission occurred. They do not store submitted form values.
-
-Generate Prisma client:
-
-```bash
-npm run prisma:generate
-```
-
-## Deployment With Docker
-
-Copy environment variables:
+| Role | Email |
+| --- | --- |
+| Super Admin | `admin@enterprise.com` |
+| SOC Analyst | `analyst@enterprise.com` |
+| Department Manager | `manager@enterprise.com` |
+| High-risk Employee | `dvance@enterprise.com` |
+| Low-risk Employee | `tstark@enterprise.com` |
+
+---
+
+## Best Demo Script
+
+Use this flow for a hackathon or project presentation:
+
+1. Open the landing page and show the premium cybersecurity UI.
+2. Login as `admin@enterprise.com`.
+3. Enter any 6-digit MFA code.
+4. Show the SOC command center.
+5. Create a campaign in Campaigns.
+6. Select all departments and launch it.
+7. Return to the SOC dashboard and show live telemetry.
+8. Open Analytics Center and explain the human firewall index.
+9. Ask AI Assistant: `Show risky departments`.
+10. Login as employee `dvance@enterprise.com`.
+11. Open the simulated mailbox.
+12. Click the phishing payload.
+13. Show the training warning banner on the fake login page.
+14. Submit demo input.
+15. Show the education screen explaining red flags.
+16. Complete employee training.
+17. Export reports from the Reports Center.
+
+---
+
+## Optional Full-Service Mode
+
+The frontend works completely in demo mode. For a full deployable architecture, use Docker Compose.
+
+Create environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-Start all services:
+Start services:
 
 ```bash
 docker compose up --build
 ```
 
-Services:
-
 | Service | URL |
 | --- | --- |
-| Web frontend | `http://localhost:3001` |
+| Web App | `http://localhost:3001` |
 | Express API | `http://localhost:4000/health` |
-| FastAPI AI service | `http://localhost:8000/health` |
+| FastAPI AI Service | `http://localhost:8000/health` |
 | PostgreSQL | `localhost:5432` |
 
-## Manual Service Startup
+---
 
-Frontend:
+## Backend API
 
-```bash
-npm run dev
+Express API location:
+
+```text
+server/src/index.ts
 ```
 
-Express API:
+Main endpoints:
 
-```bash
-cd server
-npm install
-npm run dev
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /health` | API health check |
+| `POST /auth/login` | Demo JWT login |
+| `GET /campaigns` | List campaigns |
+| `POST /campaigns` | Create campaign |
+| `POST /campaigns/:id/launch` | Launch simulation |
+| `POST /events` | Record safe simulation event |
+| `GET /analytics/overview` | Get aggregate metrics |
+
+Security features:
+
+- JWT authentication
+- RBAC middleware
+- Rate limiting
+- Helmet headers
+- CORS policy
+- Sanitized event storage
+- No secret capture
+
+---
+
+## AI Service
+
+FastAPI service location:
+
+```text
+ai-service/main.py
 ```
 
-AI service:
+Endpoints:
 
-```bash
-cd ai-service
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-python -m uvicorn main:app --reload --port 8000
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /health` | AI service health check |
+| `POST /risk-score` | Calculate risk score |
+| `POST /generate-template` | Generate safe training template |
+
+If `OPENAI_API_KEY` is present, the service can use OpenAI. If not, it still works with a deterministic fallback.
+
+---
+
+## Database Schema
+
+Prisma schema:
+
+```text
+prisma/schema.prisma
 ```
+
+Models include:
+
+- Organization
+- User
+- Department
+- Campaign
+- CampaignDepartment
+- PhishingTemplate
+- EmailLog
+- ClickEvent
+- CredentialAttempt
+- RiskScore
+- AnalyticsSnapshot
+- TrainingModule
+- UserTraining
+- Notification
+- AuditLog
+
+Important: `CredentialAttempt` stores only that a simulated submission happened. It does not store the submitted secret.
+
+---
 
 ## Project Structure
 
@@ -724,32 +546,14 @@ python -m uvicorn main:app --reload --port 8000
 phishnet-app/
   src/
     app/
-      page.tsx
+      dashboard/
+      portal/
       login/
       signup/
-      forgot-password/
       mfa/
-      portal/
-      dashboard/
-        soc/
-        campaigns/
-        templates/
-        risk/
-        analytics/
-        training/
-        ai-coach/
-        lab/
-        reports/
-        profile/
-        settings/
+      forgot-password/
     components/
-      ChartMount.tsx
-      CyberParticles.tsx
-      DashboardCard.tsx
-      LiveThreatMap.tsx
-      RadarScan.tsx
     context/
-      SimContext.tsx
   server/
     src/index.ts
   ai-service/
@@ -761,32 +565,11 @@ phishnet-app/
   README.md
 ```
 
-## Recommended Judge Demo Script
+---
 
-1. Open the landing page.
-2. Show the animated threat map and premium SOC styling.
-3. Login as `admin@enterprise.com`.
-4. Enter any 6-digit MFA code.
-5. Show `/dashboard/soc`.
-6. Open `/dashboard/campaigns`.
-7. Create a campaign and select all departments.
-8. Launch it.
-9. Return to the SOC dashboard and show live metrics.
-10. Open `/dashboard/analytics`.
-11. Ask the AI assistant: `Show risky departments`.
-12. Login as `dvance@enterprise.com` with role `Employee`.
-13. Open the simulated mailbox.
-14. Click the simulated phishing payload.
-15. Show the safe fake login page with the training banner.
-16. Submit demo input.
-17. Show the education screen explaining missed red flags.
-18. Complete training in the employee portal.
-19. Export a CSV report from `/dashboard/reports`.
-20. Show `/dashboard/settings` and explain enterprise readiness.
+## Validation
 
-## Build Verification
-
-Run:
+Run checks:
 
 ```bash
 npm run lint
@@ -794,50 +577,46 @@ npm run build
 python -m py_compile ai-service\main.py
 ```
 
-Current verified status:
+Verified during development:
 
-- Frontend lint passes.
-- Production Next.js build passes.
-- FastAPI Python file compiles.
-- Browser smoke test completed for landing, login, MFA, SOC dashboard, analytics, campaign launch, AI assistant, employee portal, and safe simulation portal.
+- Frontend lint passes
+- Production Next.js build passes
+- FastAPI Python file compiles
+- Browser smoke test passed for login, MFA, SOC, analytics, campaigns, AI assistant, employee portal, and safe simulation page
 
-## Environment Variables
+---
 
-Example file:
+## Production Readiness Notes
 
-```text
-.env.example
-```
+Before real enterprise deployment:
 
-Important variables:
+- Replace demo auth with real identity provider integration
+- Enforce real password hashing and MFA verification
+- Connect Prisma to production PostgreSQL
+- Add tenant isolation tests
+- Use approved internal domains only
+- Add immutable audit logging
+- Add SIEM/SOAR integrations
+- Add email delivery provider only for authorized internal campaigns
+- Add monitoring, backups, and incident-response playbooks
 
-```text
-NEXT_PUBLIC_API_URL=http://localhost:4000
-NEXT_PUBLIC_AI_URL=http://localhost:8000
-API_PORT=4000
-CORS_ORIGIN=http://localhost:3001
-JWT_SECRET=replace-with-a-strong-random-secret
-IP_HASH_SALT=replace-with-a-strong-random-salt
-DATABASE_URL=postgresql://phishnet:phishnet@localhost:5432/phishnet
-OPENAI_API_KEY=
-OPENAI_MODEL=gpt-4.1-mini
-```
+---
 
-## Production Notes
+## Final Summary
 
-Before real deployment:
+PhishNet AI is not just a phishing simulator. It is a complete human cyber-risk intelligence platform.
 
-- Replace demo authentication with a real identity provider.
-- Enforce real password hashing and MFA verification.
-- Connect Prisma to production PostgreSQL.
-- Restrict campaigns to verified internal domains.
-- Add tenant isolation tests.
-- Add audit-log immutability.
-- Add email provider integration only for authorized internal simulation delivery.
-- Run security testing for XSS, CSRF, authorization bypass, and rate-limit behavior.
-- Add monitoring, alerting, and backups.
+It shows how an organization can move from simple security awareness training to a measurable, realtime, adaptive human firewall program.
 
-## Summary
+It helps security teams:
 
-PhishNet AI is a safe, visually polished, end-to-end cybersecurity awareness platform. It demonstrates how an organization can simulate phishing attacks, analyze human behavior, identify risky departments, assign adaptive training, and report cyber posture through a premium realtime SOC dashboard.
+- Find vulnerable users
+- Detect risky departments
+- Improve reporting behavior
+- Assign training automatically
+- Explain phishing indicators clearly
+- Track cyber posture over time
+- Present executive-ready human risk reports
+
+**The result: a smarter organization, stronger employees, and a measurable human firewall.**
 
