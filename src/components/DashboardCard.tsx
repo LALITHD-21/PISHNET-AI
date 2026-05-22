@@ -41,13 +41,13 @@ export default function DashboardCard({
         <div className="flex items-center justify-between mb-5 pb-4 border-b border-white/10 z-10 relative">
           <div>
             {title && (
-              <h3 className="font-outfit text-xl font-semibold tracking-tighter text-[#EBEBEB] flex items-center gap-2">
+              <h3 className="font-outfit text-2xl md:text-3xl font-bold tracking-tighter text-[#EBEBEB] flex items-center gap-2">
                 <span className="w-1.5 h-1.5 bg-primary inline-block rounded-full shadow-[0_0_12px_var(--primary)] animate-pulse"></span>
                 {title}
               </h3>
             )}
             {subtitle && (
-              <p className="cyber-metadata text-white/40 mt-1.5">{subtitle}</p>
+              <p className="cyber-metadata text-white/58 mt-2 leading-relaxed">{subtitle}</p>
             )}
           </div>
           {headerAction && <div className="text-xs">{headerAction}</div>}
