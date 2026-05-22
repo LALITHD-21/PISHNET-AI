@@ -49,6 +49,8 @@ const OPEN_MODEL_STACK = [
     name: "Run All Models",
     model: "Free AI Mesh",
     role: "Orchestrates every local/open model for one executive verdict.",
+    signal: "Campaign telemetry + employee behavior + training status",
+    output: "Unified executive cyber-resilience verdict",
     color: "text-primary",
     border: "border-primary/30 bg-primary/5"
   },
@@ -57,22 +59,28 @@ const OPEN_MODEL_STACK = [
     name: "PhishBERT",
     model: "Email NLP",
     role: "Classifies phishing language, urgency, spoofing, and malicious intent.",
-    color: "text-cyan-300",
-    border: "border-cyan-400/30 bg-cyan-400/5"
+    signal: "Subject lines, sender cues, link intent, urgency language",
+    output: "Template realism and phishing-indicator explanation",
+    color: "text-[#EBEBEB]",
+    border: "border-white/15 bg-white/[0.035]"
   },
   {
     id: "minilm",
     name: "MiniLM",
     model: "Behavior Clustering",
     role: "Groups employees by click, report, response, and training patterns.",
-    color: "text-violet-300",
-    border: "border-violet-400/30 bg-violet-400/5"
+    signal: "Open rate, click rate, response time, repeat failures",
+    output: "Vulnerable user segments and department clusters",
+    color: "text-emerald-200",
+    border: "border-emerald-400/25 bg-emerald-400/5"
   },
   {
     id: "mistral",
     name: "Mistral 7B",
     model: "SOC Reasoning",
     role: "Generates analyst-grade recommendations from live campaign data.",
+    signal: "Risk hotspots, campaign trends, credential attempts",
+    output: "SOC analyst recommendations and next actions",
     color: "text-amber-300",
     border: "border-amber-400/30 bg-amber-400/5"
   },
@@ -81,6 +89,8 @@ const OPEN_MODEL_STACK = [
     name: "Llama 3",
     model: "Executive Brief",
     role: "Turns raw telemetry into simple board-ready security language.",
+    signal: "KPI summary, risk movement, department posture",
+    output: "Board-ready executive report narrative",
     color: "text-emerald-300",
     border: "border-emerald-400/30 bg-emerald-400/5"
   },
@@ -89,6 +99,8 @@ const OPEN_MODEL_STACK = [
     name: "Gemma",
     model: "Training Coach",
     role: "Recommends adaptive awareness modules for risky employees.",
+    signal: "Click events, safe credential attempts, ignored warnings",
+    output: "Adaptive training path and quiz assignment",
     color: "text-rose-300",
     border: "border-rose-400/30 bg-rose-400/5"
   }
@@ -233,36 +245,92 @@ export default function SocDashboard() {
     { title: "Reports", value: "CSV", href: "/dashboard/reports", icon: FileText, text: "Export executive evidence" }
   ];
 
+  const problemStatementPoints = [
+    "Configurable phishing simulation campaigns using safe, controlled templates",
+    "AI-powered analytics for click rates, credential submissions, reporting behavior, and response patterns",
+    "Department-level risk assessment dashboards and organizational vulnerability analysis",
+    "Automated awareness training workflows triggered by simulated phishing behavior",
+    "Secure campaign management and centralized monitoring"
+  ];
+
   const requirementCards = [
     {
       title: "Controlled Campaigns",
       text: "Configurable phishing simulations using safe templates for Microsoft 365, payroll, invoices, QR phishing, CEO fraud, and MFA fatigue.",
       icon: Target,
-      status: "Implemented"
+      status: "Live",
+      metric: `${campaigns.length} campaigns`,
+      proof: "Campaign builder, scheduler, templates, and demo tracking",
+      href: "/dashboard/campaigns"
     },
     {
       title: "AI Behavioral Analytics",
       text: "Click rates, credential-submission attempts, reporting behavior, response patterns, and resilience scores are calculated from live simulation data.",
       icon: Brain,
-      status: "Implemented"
+      status: "Live",
+      metric: `${stats.clickRate}% click rate`,
+      proof: "Human Cyber Risk Score, AI model mesh, trend analysis",
+      href: "/dashboard/analytics"
     },
     {
       title: "Department Risk Assessment",
       text: "Risk heatmaps compare HR, Finance, Engineering, Sales, and Operations to reveal organizational vulnerability hotspots.",
       icon: Users,
-      status: "Implemented"
+      status: "Live",
+      metric: `${stats.avgDeptRisk}/100 avg risk`,
+      proof: "Department heatmaps, posture charts, executive hotspots",
+      href: "/dashboard/risk"
     },
     {
       title: "Adaptive Training",
       text: "Awareness modules and quizzes are triggered when employees click links, submit demo credentials, or need reinforcement.",
       icon: GraduationCap,
-      status: "Implemented"
+      status: "Live",
+      metric: `${stats.assignedTraining} assigned`,
+      proof: "Auto training queue, quizzes, badges, employee portal",
+      href: "/dashboard/training"
     },
     {
       title: "Secure Monitoring",
       text: "Centralized SOC command center with MFA-ready auth, RBAC-ready roles, audit logs, safe simulation design, and realtime event monitoring.",
       icon: Lock,
-      status: "Implemented"
+      status: "Live",
+      metric: `${logs.length} events`,
+      proof: "SOC dashboard, audit logs, JWT/RBAC architecture, reports",
+      href: "/dashboard/settings"
+    }
+  ];
+
+  const analyticsModels = [
+    {
+      name: "Human Cyber Risk Score",
+      signal: "Opens, risky clicks, demo credential submissions, reports, repeat failures",
+      output: `${stats.resilienceScore}/100 resilience score`,
+      icon: Shield
+    },
+    {
+      name: "Department Exposure Index",
+      signal: "Aggregated department click rate, report rate, and credential-attempt rate",
+      output: `${topRiskDepartment?.name || "Top department"} hotspot detection`,
+      icon: Users
+    },
+    {
+      name: "Response Pattern Analyzer",
+      signal: "Time-to-open, time-to-click, time-to-report, recovery behavior",
+      output: "Vulnerable cohorts and behavior clusters",
+      icon: Activity
+    },
+    {
+      name: "Adaptive Training Recommender",
+      signal: "Simulation failures, ignored warning signs, weak reporting behavior",
+      output: "Personalized awareness workflow",
+      icon: GraduationCap
+    },
+    {
+      name: "Executive Insight Generator",
+      signal: "Campaign history, risk movement, training completion, live SOC events",
+      output: "Board-ready technical report narrative",
+      icon: FileText
     }
   ];
 
@@ -290,47 +358,64 @@ export default function SocDashboard() {
     { layer: "Realtime", value: "Socket.IO Event Stream" }
   ];
 
+  const technicalReportSections = [
+    { title: "Analytics Model", text: "Weighted scoring blends clicks, submissions, reports, timing, repeat failures, and training progress." },
+    { title: "Security Controls", text: "Safe templates, sandboxed demo portals, JWT/RBAC/MFA design, rate limits, audit logs, and no real credential storage." },
+    { title: "Implementation Strategy", text: "Next.js interface, Express routes, FastAPI AI service, Prisma/PostgreSQL schema, Socket.IO events, Docker deployment." },
+    { title: "Workflow Evidence", text: "Campaign creation, simulated interaction, risk scoring, training automation, reports, and architecture documentation." }
+  ];
+
   const heroStats = [
     { label: "Requirement Coverage", value: "5/5", icon: CheckCircle, color: "text-emerald-400", text: "All key features mapped" },
     { label: "Deliverables", value: "5/5", icon: Award, color: "text-primary", text: "Prototype, docs, reports" },
-    { label: "AI Models", value: "6", icon: Brain, color: "text-secondary", text: "Free/local model mesh" },
+    { label: "AI Models", value: "6", icon: Brain, color: "text-[#EBEBEB]", text: "Free/local model mesh" },
     { label: "Live Events", value: logs.length, icon: Activity, color: "text-amber-400", text: "Realtime simulation logs" }
   ];
 
   return (
     <div className="space-y-7 pb-8">
-      <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-[#050712]/90 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(0,240,255,0.10),transparent_34%,rgba(157,78,221,0.08)_68%,transparent)] pointer-events-none" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+      <div className="cyber-card relative overflow-hidden rounded-3xl border border-white/10 bg-[#050505] p-6 md:p-8 shadow-[0_30px_110px_rgba(0,0,0,0.58)]">
+        <div className="absolute inset-0 cyber-grid opacity-40 pointer-events-none" />
+        <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/10 blur-[100px]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
 
         <div className="relative z-10 grid grid-cols-1 xl:grid-cols-12 gap-6">
           <div className="xl:col-span-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-primary">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/5 px-4 py-2 cyber-metadata text-primary">
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              Enterprise SOC Command Center
+              Hackathon Software Track / Live Prototype
             </div>
-            <h1 className="mt-4 font-outfit text-3xl md:text-5xl font-black tracking-tight text-slate-100">
-              Human Firewall Intelligence Dashboard
+            <h1 className="mt-5 max-w-4xl font-outfit text-5xl md:text-7xl font-light leading-[0.92] tracking-tighter text-[#EBEBEB]">
+              Human Firewall <span className="italic text-primary">Intelligence</span> Platform
             </h1>
-            <p className="mt-3 max-w-3xl text-sm md:text-base leading-relaxed text-slate-400">
-              A premium command center for phishing simulation, free/local AI analysis, human cyber-risk scoring, department heatmaps, adaptive training, and executive reporting.
+            <p className="mt-5 max-w-3xl text-sm md:text-base leading-relaxed text-white/50">
+              PhishNet AI is a safe, controlled phishing simulation and cybersecurity awareness platform that lets organizations launch campaigns, analyze human behavior with AI, measure phishing resilience, and trigger adaptive training from one centralized SOC command center.
             </p>
 
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {problemStatementPoints.map((point, index) => (
+                <div key={point} className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/[0.025] px-4 py-3">
+                  <span className="mt-0.5 font-mono text-[10px] font-bold text-primary">0{index + 1}</span>
+                  <span className="text-xs leading-relaxed text-white/58">{point}</span>
+                </div>
+              ))}
+            </div>
+
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/dashboard/campaigns" className="cyber-btn rounded-lg px-4 py-2.5 text-[11px] font-mono flex items-center gap-2">
+              <Link href="/dashboard/campaigns" className="cyber-btn px-5 py-3 text-[11px] font-mono flex items-center gap-2">
                 Launch Campaign <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/dashboard/reports" className="rounded-lg border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 transition-colors hover:border-accent/40 hover:text-accent">
+              <Link href="/dashboard/reports" className="rounded-full border border-white/15 bg-white/[0.02] px-5 py-3 text-[11px] font-mono font-bold uppercase tracking-[0.18em] text-white/70 transition-colors hover:border-primary/40 hover:text-primary">
                 Executive Report
               </Link>
-              <Link href="/dashboard/ai-coach" className="rounded-lg border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 transition-colors hover:border-secondary/40 hover:text-secondary">
+              <Link href="/dashboard/ai-coach" className="rounded-full border border-white/15 bg-white/[0.02] px-5 py-3 text-[11px] font-mono font-bold uppercase tracking-[0.18em] text-white/70 transition-colors hover:border-primary/40 hover:text-primary">
                 Ask AI Coach
               </Link>
             </div>
           </div>
 
           <div className="xl:col-span-5">
-            <div className={`rounded-xl border px-4 py-3 text-[11px] font-mono font-bold uppercase tracking-wider ${threatLevel.tone} flex items-center justify-between gap-3`}>
+            <div className={`rounded-full border px-4 py-3 text-[11px] font-mono font-bold uppercase tracking-[0.18em] ${threatLevel.tone} flex items-center justify-between gap-3`}>
               <span className="flex items-center gap-2">
                 <span className={`h-2 w-2 rounded-full ${threatLevel.pulse} animate-pulse`} />
                 {threatLevel.label}
@@ -340,50 +425,57 @@ export default function SocDashboard() {
 
             <div className="mt-4 grid grid-cols-2 gap-3">
               {heroStats.map(({ label, value, icon: Icon, color, text }) => (
-                <div key={label} className="rounded-xl border border-slate-800/80 bg-slate-950/60 p-4">
+                <div key={label} className="rounded-3xl border border-white/10 bg-white/[0.025] p-4">
                   <div className="flex items-center justify-between">
                     <Icon className={`h-4 w-4 ${color}`} />
-                    <span className={`font-outfit text-xl font-black ${color}`}>{value}</span>
+                    <span className={`font-outfit text-2xl font-light ${color}`}>{value}</span>
                   </div>
-                  <div className="mt-3 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-300">{label}</div>
-                  <div className="mt-0.5 text-[9px] text-slate-600">{text}</div>
+                  <div className="mt-3 cyber-metadata text-white/70">{label}</div>
+                  <div className="mt-1 text-[10px] text-white/35">{text}</div>
                 </div>
               ))}
+            </div>
+
+            <div className="mt-4 rounded-3xl border border-primary/20 bg-primary/[0.035] p-5">
+              <div className="cyber-metadata text-primary">Judge-ready explanation</div>
+              <p className="mt-2 text-sm leading-relaxed text-white/60">
+                The prototype demonstrates source code, deployment-ready structure, campaign management, analytics visualization, safe simulated templates, awareness training, architecture workflow, and a technical-report narrative.
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-        <div className="xl:col-span-8 cyber-card rounded-2xl border border-primary/20 bg-slate-950/50 p-6 overflow-hidden">
+        <div className="xl:col-span-8 cyber-card rounded-3xl border border-white/10 bg-white/[0.02] p-6 overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="lg:col-span-7 text-left">
-              <p className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-primary">Explain this in 20 seconds</p>
-              <h2 className="mt-3 font-outfit text-2xl font-black text-slate-100">From phishing test to cyber-risk intelligence.</h2>
-              <p className="mt-3 text-sm leading-relaxed text-slate-400">
-                PhishNet AI launches safe simulated phishing, watches employee actions, scores risk, predicts weak departments, assigns training, and gives leaders a live cybersecurity posture report.
+              <p className="cyber-metadata text-primary">Explain this in 20 seconds</p>
+              <h2 className="mt-3 font-outfit text-3xl font-light tracking-tighter text-[#EBEBEB]">From phishing test to measurable cyber resilience.</h2>
+              <p className="mt-3 text-sm leading-relaxed text-white/50">
+                PhishNet AI launches safe simulated phishing, watches employee actions, scores human risk, predicts weak departments, assigns training, and gives leaders a live cybersecurity posture report.
               </p>
 
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-5 gap-3">
                 {WORKFLOW_STEPS.map(({ title, text, icon: Icon, color }, index) => (
-                  <div key={title} className="relative rounded-xl border border-slate-900 bg-[#030308]/75 p-3 min-h-32 overflow-hidden">
-                    <span className="absolute right-3 top-3 font-mono text-[10px] font-black text-slate-800">0{index + 1}</span>
+                  <div key={title} className="relative rounded-3xl border border-white/10 bg-[#050505]/80 p-3 min-h-32 overflow-hidden">
+                    <span className="absolute right-3 top-3 font-mono text-[10px] font-black text-white/10">0{index + 1}</span>
                     <Icon className={`h-5 w-5 ${color}`} />
-                    <div className="mt-3 font-outfit text-sm font-bold uppercase text-slate-100">{title}</div>
-                    <p className="mt-1 text-[10px] leading-relaxed text-slate-500">{text}</p>
+                    <div className="mt-3 font-outfit text-base font-light text-[#EBEBEB]">{title}</div>
+                    <p className="mt-1 text-[10px] leading-relaxed text-white/38">{text}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="lg:col-span-5 rounded-2xl border border-slate-900 bg-[#030308]/80 p-4 font-mono">
-              <div className="flex items-center justify-between border-b border-slate-900 pb-3">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">AI Executive Brief</span>
-                <span className="rounded border border-emerald-400/20 bg-emerald-400/5 px-2 py-1 text-[9px] font-bold text-emerald-400">LIVE</span>
+            <div className="lg:col-span-5 rounded-3xl border border-white/10 bg-[#050505]/80 p-4 font-mono">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <span className="cyber-metadata text-white/40">AI Executive Brief</span>
+                <span className="rounded-full border border-emerald-400/20 bg-emerald-400/5 px-3 py-1 text-[9px] font-bold text-emerald-400">LIVE</span>
               </div>
               <div className="mt-4 space-y-3">
                 {explainBullets.map((bullet, index) => (
-                  <div key={bullet} className="flex gap-2 text-[11px] leading-relaxed text-slate-300">
+                  <div key={bullet} className="flex gap-2 text-[11px] leading-relaxed text-white/62">
                     <span className="text-primary font-bold">0{index + 1}</span>
                     <span>{bullet}</span>
                   </div>
@@ -393,15 +485,15 @@ export default function SocDashboard() {
           </div>
         </div>
 
-        <div className="xl:col-span-4 cyber-card rounded-2xl border border-secondary/20 bg-slate-950/50 p-6">
+        <div className="xl:col-span-4 cyber-card rounded-3xl border border-white/10 bg-white/[0.02] p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-secondary">AI Model Hub</p>
-              <h3 className="mt-2 font-outfit text-xl font-black text-slate-100">Free AI Model Mesh</h3>
+              <p className="cyber-metadata text-primary">AI Model Hub</p>
+              <h3 className="mt-2 font-outfit text-2xl font-light tracking-tighter text-[#EBEBEB]">Free AI Model Mesh</h3>
             </div>
-            <Cpu className="h-8 w-8 text-secondary" />
+            <Cpu className="h-8 w-8 text-primary" />
           </div>
-          <p className="mt-3 text-xs leading-relaxed text-slate-400">
+          <p className="mt-3 text-xs leading-relaxed text-white/48">
             Demo-mode AI uses local telemetry and open/free model profiles. No paid API key is required for the dashboard analysis.
           </p>
 
@@ -410,30 +502,35 @@ export default function SocDashboard() {
               <button
                 key={model.id}
                 onClick={() => setActiveModel(model)}
-                className={`rounded-xl border p-3 text-left transition-all cursor-pointer ${
-                  activeModel.id === model.id ? `${model.border} shadow-[0_0_18px_rgba(0,240,255,0.08)]` : "border-slate-900 bg-[#030308]/70 hover:border-slate-700"
+                className={`rounded-3xl border p-3 text-left transition-all cursor-pointer ${
+                  activeModel.id === model.id ? `${model.border} shadow-[0_0_22px_rgba(16,185,129,0.10)]` : "border-white/10 bg-[#050505]/70 hover:border-primary/30"
                 }`}
               >
                 <div className={`font-mono text-[10px] font-bold uppercase ${model.color}`}>{model.name}</div>
-                <div className="mt-1 text-[9px] text-slate-500">{model.model}</div>
+                <div className="mt-1 text-[9px] text-white/35">{model.model}</div>
               </button>
             ))}
+          </div>
+
+          <div className="mt-4 rounded-3xl border border-white/10 bg-[#050505]/70 p-4">
+            <div className="cyber-metadata text-white/35">Selected model output</div>
+            <p className="mt-2 text-xs leading-relaxed text-white/55">{activeModel.output}</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {kpiCards.map(({ label, value, sub, icon: Icon, color, bar, progress, status }) => (
-          <div key={label} className="cyber-card rounded-2xl border border-slate-900/70 bg-slate-950/45 p-5 text-left relative overflow-hidden">
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-500/50 to-transparent" />
+          <div key={label} className="cyber-card rounded-3xl border border-white/10 bg-white/[0.02] p-5 text-left relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
             <Icon className={`absolute right-4 top-4 h-11 w-11 opacity-15 ${color}`} />
-            <span className="text-[10px] text-slate-500 block font-mono font-bold uppercase tracking-wider">{label}</span>
-            <span className={`text-3xl font-extrabold font-outfit block my-1 ${color}`}>{value}</span>
-            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-slate-900">
+            <span className="cyber-metadata text-white/38 block">{label}</span>
+            <span className={`text-4xl font-light font-outfit tracking-tighter block my-1 ${color}`}>{value}</span>
+            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
               <div className={`h-full rounded-full ${bar} transition-all duration-700`} style={{ width: `${Math.max(6, Math.min(100, progress))}%` }} />
             </div>
             <div className="mt-3 flex items-center justify-between gap-2 text-[9px] font-mono font-bold uppercase">
-              <span className="text-slate-500">{sub}</span>
+              <span className="text-white/35">{sub}</span>
               <span className={color}>{status}</span>
             </div>
           </div>
@@ -445,18 +542,18 @@ export default function SocDashboard() {
           <Link
             key={title}
             href={href}
-            className="cyber-card group rounded-2xl border border-slate-900 bg-slate-950/45 p-4 min-h-32 flex flex-col justify-between hover:border-primary/40 transition-all"
+            className="cyber-card group rounded-3xl border border-white/10 bg-white/[0.02] p-4 min-h-32 flex flex-col justify-between hover:border-primary/40 transition-all"
           >
             <div className="flex items-center justify-between">
-              <div className="rounded-lg border border-primary/15 bg-primary/5 p-2">
+              <div className="rounded-2xl border border-primary/15 bg-primary/5 p-2">
                 <Icon className="h-4 w-4 text-primary" />
               </div>
-              <ArrowRight className="h-3.5 w-3.5 text-slate-600 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+              <ArrowRight className="h-3.5 w-3.5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
             <div>
-              <div className="font-outfit text-2xl font-black text-slate-100">{value}</div>
-              <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-300">{title}</div>
-              <p className="mt-1 text-[9px] leading-relaxed text-slate-600">{text}</p>
+              <div className="font-outfit text-3xl font-light tracking-tighter text-[#EBEBEB]">{value}</div>
+              <div className="cyber-metadata text-white/55">{title}</div>
+              <p className="mt-1 text-[9px] leading-relaxed text-white/32">{text}</p>
             </div>
           </Link>
         ))}
@@ -465,30 +562,37 @@ export default function SocDashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         <div className="xl:col-span-8">
           <DashboardCard
-            title="PROBLEM STATEMENT COVERAGE"
-            subtitle="Every hackathon requirement is mapped to a working dashboard capability."
-            glowColor="rgba(0, 240, 255, 0.16)"
+            title="HACKATHON REQUIREMENT MATRIX"
+            subtitle="Every problem-statement requirement is highlighted, measurable, and linked to a working module."
+            glowColor="rgba(16, 185, 129, 0.14)"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-5 gap-4">
-              {requirementCards.map(({ title, text, icon: Icon, status }, index) => (
-                <div key={title} className="rounded-2xl border border-slate-900 bg-[#030308]/70 p-4 min-h-44 text-left flex flex-col justify-between">
+              {requirementCards.map(({ title, text, icon: Icon, status, metric, proof, href }, index) => (
+                <Link key={title} href={href} className="group rounded-3xl border border-white/10 bg-[#050505]/70 p-4 min-h-56 text-left flex flex-col justify-between transition-all hover:border-primary/35 hover:bg-primary/[0.035]">
                   <div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-[10px] font-black text-primary">R{index + 1}</span>
                         <Icon className="h-5 w-5 text-primary" />
                       </div>
-                      <span className="rounded border border-emerald-400/20 bg-emerald-400/5 px-2 py-0.5 text-[8px] font-mono font-bold uppercase text-emerald-400">
+                      <span className="rounded-full border border-emerald-400/20 bg-emerald-400/5 px-2.5 py-1 text-[8px] font-mono font-bold uppercase text-emerald-400">
                         {status}
                       </span>
                     </div>
-                    <h3 className="mt-4 font-outfit text-sm font-black uppercase text-slate-100">{title}</h3>
-                    <p className="mt-2 text-[10px] leading-relaxed text-slate-500">{text}</p>
+                    <h3 className="mt-4 font-outfit text-lg font-light tracking-tighter text-[#EBEBEB]">{title}</h3>
+                    <p className="mt-2 text-[10px] leading-relaxed text-white/45">{text}</p>
                   </div>
-                  <div className="mt-4 h-1 overflow-hidden rounded-full bg-slate-900">
-                    <div className="h-full w-full rounded-full bg-emerald-400" />
+                  <div className="mt-4 space-y-3">
+                    <div>
+                      <div className="cyber-metadata text-white/30">Proof</div>
+                      <div className="mt-1 text-[10px] leading-relaxed text-white/55">{proof}</div>
+                    </div>
+                    <div className="flex items-center justify-between border-t border-white/10 pt-3">
+                      <span className="font-mono text-[10px] font-bold uppercase text-primary">{metric}</span>
+                      <ArrowRight className="h-3.5 w-3.5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </DashboardCard>
@@ -500,37 +604,77 @@ export default function SocDashboard() {
             subtitle="Who benefits from this platform and why it matters."
             glowColor="rgba(0, 255, 208, 0.14)"
           >
-            <div className="rounded-xl border border-slate-900 bg-[#030308]/70 p-4">
-              <p className="text-sm leading-relaxed text-slate-300">
+            <div className="rounded-3xl border border-white/10 bg-[#050505]/70 p-5">
+              <p className="text-sm leading-relaxed text-white/58">
                 PhishNet AI reduces phishing susceptibility, improves awareness, measures resilience, and strengthens security posture for high-risk organizations.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {audienceCards.map((audience) => (
-                  <span key={audience} className="rounded border border-accent/20 bg-accent/5 px-3 py-1.5 text-[10px] font-mono font-bold uppercase text-accent">
+                  <span key={audience} className="rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-[10px] font-mono font-bold uppercase text-accent">
                     {audience}
                   </span>
                 ))}
+              </div>
+              <div className="mt-5 border-t border-white/10 pt-4">
+                <div className="cyber-metadata text-primary">Impact claim</div>
+                <p className="mt-2 text-xs leading-relaxed text-white/45">
+                  Enterprises, campuses, agencies, trainers, and SOC teams can prove resilience improvement using measurable user behavior instead of one-time awareness completion.
+                </p>
               </div>
             </div>
           </DashboardCard>
         </div>
       </div>
 
+      <DashboardCard
+        title="AI ANALYTICS MODELS"
+        subtitle="The intelligence layer converts campaign events into risk scores, vulnerable-user predictions, training triggers, and executive reports."
+        glowColor="rgba(16, 185, 129, 0.13)"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          {analyticsModels.map(({ name, signal, output, icon: Icon }, index) => (
+            <div key={name} className="rounded-3xl border border-white/10 bg-[#050505]/70 p-5 min-h-52">
+              <div className="flex items-center justify-between">
+                <div className="rounded-2xl border border-primary/20 bg-primary/5 p-2.5">
+                  <Icon className="h-5 w-5 text-primary" />
+                </div>
+                <span className="font-mono text-[10px] font-black text-white/15">M{index + 1}</span>
+              </div>
+              <h3 className="mt-4 font-outfit text-xl font-light tracking-tighter text-[#EBEBEB]">{name}</h3>
+              <div className="mt-4 space-y-3">
+                <div>
+                  <div className="cyber-metadata text-white/28">Signals</div>
+                  <p className="mt-1 text-[10px] leading-relaxed text-white/48">{signal}</p>
+                </div>
+                <div>
+                  <div className="cyber-metadata text-primary">Output</div>
+                  <p className="mt-1 text-[10px] leading-relaxed text-white/62">{output}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </DashboardCard>
+
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         <div className="xl:col-span-7">
           <DashboardCard
             title="EXPECTED DELIVERABLES STATUS"
             subtitle="Judges can verify the required source code, dashboards, templates, training, security docs, and reports."
-            glowColor="rgba(157, 78, 221, 0.16)"
+            glowColor="rgba(16, 185, 129, 0.12)"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-5 gap-4">
               {deliverableCards.map(({ title, text, icon: Icon }) => (
-                <div key={title} className="rounded-2xl border border-slate-900 bg-[#030308]/70 p-4 min-h-40 text-left">
-                  <div className="rounded-lg border border-secondary/20 bg-secondary/5 p-2 w-fit">
-                    <Icon className="h-4 w-4 text-secondary" />
+                <div key={title} className="rounded-3xl border border-white/10 bg-[#050505]/70 p-4 min-h-44 text-left">
+                  <div className="rounded-2xl border border-primary/20 bg-primary/5 p-2 w-fit">
+                    <Icon className="h-4 w-4 text-primary" />
                   </div>
-                  <h3 className="mt-3 font-outfit text-sm font-bold uppercase text-slate-100">{title}</h3>
-                  <p className="mt-2 text-[10px] leading-relaxed text-slate-500">{text}</p>
+                  <h3 className="mt-3 font-outfit text-lg font-light tracking-tighter text-[#EBEBEB]">{title}</h3>
+                  <p className="mt-2 text-[10px] leading-relaxed text-white/45">{text}</p>
+                  <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/5 px-2.5 py-1 text-[8px] font-mono font-bold uppercase text-emerald-400">
+                    <CheckCircle className="h-3 w-3" />
+                    Ready
+                  </div>
                 </div>
               ))}
             </div>
@@ -546,12 +690,12 @@ export default function SocDashboard() {
             <div className="space-y-3">
               {architectureFlow.map(({ layer, value }, index) => (
                 <div key={layer} className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg border border-primary/20 bg-primary/5 flex items-center justify-center font-mono text-[10px] font-black text-primary">
+                  <div className="h-10 w-10 rounded-2xl border border-primary/20 bg-primary/5 flex items-center justify-center font-mono text-[10px] font-black text-primary">
                     {index + 1}
                   </div>
-                  <div className="flex-1 rounded-lg border border-slate-900 bg-[#030308]/75 px-4 py-3">
-                    <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-600">{layer}</div>
-                    <div className="font-outfit text-sm font-bold text-slate-200">{value}</div>
+                  <div className="flex-1 rounded-3xl border border-white/10 bg-[#050505]/75 px-4 py-3">
+                    <div className="cyber-metadata text-white/28">{layer}</div>
+                    <div className="font-outfit text-base font-light tracking-tighter text-[#EBEBEB]">{value}</div>
                   </div>
                 </div>
               ))}
@@ -560,49 +704,78 @@ export default function SocDashboard() {
         </div>
       </div>
 
+      <DashboardCard
+        title="TECHNICAL REPORT BLUEPRINT"
+        subtitle="A clean explanation layer for analytics models, security considerations, and implementation strategy."
+        glowColor="rgba(16, 185, 129, 0.12)"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          {technicalReportSections.map(({ title, text }, index) => (
+            <div key={title} className="rounded-3xl border border-white/10 bg-[#050505]/70 p-5">
+              <div className="flex items-center justify-between">
+                <span className="cyber-metadata text-primary">Section {index + 1}</span>
+                <FileText className="h-4 w-4 text-primary" />
+              </div>
+              <h3 className="mt-4 font-outfit text-xl font-light tracking-tighter text-[#EBEBEB]">{title}</h3>
+              <p className="mt-2 text-xs leading-relaxed text-white/48">{text}</p>
+            </div>
+          ))}
+        </div>
+      </DashboardCard>
+
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         <div className="xl:col-span-8">
           <DashboardCard
             title={`${activeModel.name.toUpperCase()} INTELLIGENCE OUTPUT`}
             subtitle={`${activeModel.model} confidence ${modelConfidence}% - generated from current simulation telemetry`}
-            glowColor="rgba(157, 78, 221, 0.16)"
+            glowColor="rgba(16, 185, 129, 0.13)"
             headerAction={
-              <div className="rounded border border-secondary/30 bg-secondary/5 px-2.5 py-1 font-mono text-[10px] font-bold text-secondary">
+              <div className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1 font-mono text-[10px] font-bold text-primary">
                 LOCAL / FREE AI
               </div>
             }
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-              <div className="lg:col-span-7 rounded-2xl border border-slate-900 bg-[#030308]/75 p-5 text-left">
+              <div className="lg:col-span-7 rounded-3xl border border-white/10 bg-[#050505]/75 p-5 text-left">
                 <div className="flex items-start gap-3">
-                  <div className={`rounded-lg border p-2 ${activeModel.border}`}>
+                  <div className={`rounded-2xl border p-2.5 ${activeModel.border}`}>
                     <Brain className={`h-5 w-5 ${activeModel.color}`} />
                   </div>
                   <div>
-                    <h3 className="font-outfit text-lg font-black text-slate-100">{activeModel.name}</h3>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-400">{activeModel.role}</p>
+                    <h3 className="font-outfit text-2xl font-light tracking-tighter text-[#EBEBEB]">{activeModel.name}</h3>
+                    <p className="mt-1 text-xs leading-relaxed text-white/48">{activeModel.role}</p>
                   </div>
                 </div>
-                <p className="mt-5 text-sm leading-relaxed text-slate-200">{aiInsight}</p>
+                <p className="mt-5 text-sm leading-relaxed text-white/68">{aiInsight}</p>
+                <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-4">
+                    <div className="cyber-metadata text-white/30">Input signals</div>
+                    <p className="mt-2 text-[10px] leading-relaxed text-white/50">{activeModel.signal}</p>
+                  </div>
+                  <div className="rounded-3xl border border-primary/20 bg-primary/[0.035] p-4">
+                    <div className="cyber-metadata text-primary">AI output</div>
+                    <p className="mt-2 text-[10px] leading-relaxed text-white/62">{activeModel.output}</p>
+                  </div>
+                </div>
                 <div className="mt-5 grid grid-cols-3 gap-3 font-mono text-center">
-                  <div className="rounded border border-slate-900 bg-slate-950/70 p-3">
+                  <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-3">
                     <div className="text-lg font-black text-primary">{modelConfidence}%</div>
-                    <div className="text-[9px] text-slate-500 uppercase">confidence</div>
+                    <div className="text-[9px] text-white/35 uppercase">confidence</div>
                   </div>
-                  <div className="rounded border border-slate-900 bg-slate-950/70 p-3">
+                  <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-3">
                     <div className="text-lg font-black text-amber-400">{stats.avgDeptRisk}</div>
-                    <div className="text-[9px] text-slate-500 uppercase">avg risk</div>
+                    <div className="text-[9px] text-white/35 uppercase">avg risk</div>
                   </div>
-                  <div className="rounded border border-slate-900 bg-slate-950/70 p-3">
+                  <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-3">
                     <div className="text-lg font-black text-rose-400">{stats.criticalUsers}</div>
-                    <div className="text-[9px] text-slate-500 uppercase">critical</div>
+                    <div className="text-[9px] text-white/35 uppercase">critical</div>
                   </div>
                 </div>
               </div>
 
-              <div className="lg:col-span-5 rounded-2xl border border-slate-900 bg-[#030308]/75 p-5">
+              <div className="lg:col-span-5 rounded-3xl border border-white/10 bg-[#050505]/75 p-5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500">Recommended Actions</span>
+                  <span className="cyber-metadata text-white/35">Recommended Actions</span>
                   <Sparkles className="h-4 w-4 text-primary" />
                 </div>
                 <div className="mt-4 space-y-3 font-mono text-[11px]">
@@ -612,7 +785,7 @@ export default function SocDashboard() {
                     `Increase reporting drills until report rate exceeds 70%.`,
                     `Export executive report after next campaign cycle.`
                   ].map((action, index) => (
-                    <div key={action} className="flex gap-2 rounded border border-slate-900 bg-slate-950/60 p-3 text-slate-300">
+                    <div key={action} className="flex gap-2 rounded-3xl border border-white/10 bg-white/[0.025] p-3 text-white/62">
                       <span className="text-primary font-bold">A{index + 1}</span>
                       <span>{action}</span>
                     </div>
