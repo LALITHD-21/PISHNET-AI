@@ -439,7 +439,7 @@ export default function SocDashboard() {
   ];
 
   return (
-    <div className="space-y-7 pb-8">
+    <div className="soc-showcase space-y-8 pb-10">
       <div className="cyber-card relative overflow-hidden rounded-3xl border border-white/10 bg-[#050505] p-6 md:p-8 shadow-[0_30px_110px_rgba(0,0,0,0.58)]">
         <div className="absolute inset-0 cyber-grid opacity-40 pointer-events-none" />
         <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/10 blur-[100px]" />
@@ -451,18 +451,18 @@ export default function SocDashboard() {
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
               Hackathon Software Track / Live Prototype
             </div>
-            <h1 className="mt-5 max-w-4xl font-outfit text-5xl md:text-7xl xl:text-8xl font-bold leading-[0.92] tracking-tighter text-[#EBEBEB]">
+            <h1 className="mt-5 max-w-5xl font-outfit text-6xl md:text-8xl xl:text-9xl font-black leading-[0.86] tracking-tighter text-[#EBEBEB]">
               Human Firewall <span className="italic text-primary">Intelligence</span> Platform
             </h1>
-            <p className="mt-5 max-w-3xl text-base md:text-lg font-medium leading-relaxed text-white/70">
+            <p className="mt-6 max-w-4xl text-lg md:text-xl font-bold leading-relaxed text-white/78">
               PhishNet AI is a safe, controlled phishing simulation and cybersecurity awareness platform that lets organizations launch campaigns, analyze human behavior with AI, measure phishing resilience, and trigger adaptive training from one centralized SOC command center.
             </p>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {problemStatementPoints.map((point, index) => (
                 <div key={point} className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/[0.025] px-4 py-3">
-                  <span className="mt-0.5 font-mono text-xs font-black text-primary">0{index + 1}</span>
-                  <span className="text-sm font-semibold leading-relaxed text-white/82">{point}</span>
+                  <span className="mt-0.5 font-mono text-sm font-black text-primary">0{index + 1}</span>
+                  <span className="text-base font-bold leading-relaxed text-white/88">{point}</span>
                 </div>
               ))}
             </div>
@@ -494,17 +494,17 @@ export default function SocDashboard() {
                 <div key={label} className="rounded-3xl border border-white/10 bg-white/[0.025] p-4">
                   <div className="flex items-center justify-between">
                     <Icon className={`h-4 w-4 ${color}`} />
-                    <span className={`font-outfit text-3xl font-bold ${color}`}>{value}</span>
+                    <span className={`font-outfit text-4xl font-black ${color}`}>{value}</span>
                   </div>
                   <div className="mt-3 cyber-metadata text-white/80">{label}</div>
-                  <div className="mt-1 text-xs font-semibold text-white/50">{text}</div>
+                  <div className="mt-1 text-sm font-bold text-white/62">{text}</div>
                 </div>
               ))}
             </div>
 
             <div className="mt-4 rounded-3xl border border-primary/20 bg-primary/[0.035] p-5">
               <div className="cyber-metadata text-primary">Judge-ready explanation</div>
-              <p className="mt-2 text-base font-semibold leading-relaxed text-white/72">
+              <p className="mt-3 text-lg font-bold leading-relaxed text-white/82">
                 The prototype demonstrates source code, deployment-ready structure, campaign management, analytics visualization, safe simulated templates, awareness training, architecture workflow, and a technical-report narrative.
               </p>
             </div>
@@ -517,8 +517,8 @@ export default function SocDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="lg:col-span-7 text-left">
               <p className="cyber-metadata text-primary">Explain this in 20 seconds</p>
-              <h2 className="mt-3 font-outfit text-4xl font-bold tracking-tighter text-[#EBEBEB]">From phishing test to measurable cyber resilience.</h2>
-              <p className="mt-3 text-base font-medium leading-relaxed text-white/68">
+              <h2 className="mt-3 font-outfit text-5xl md:text-6xl font-black tracking-tighter text-[#EBEBEB]">From phishing test to measurable cyber resilience.</h2>
+              <p className="mt-4 text-lg font-bold leading-relaxed text-white/78">
                 PhishNet AI launches safe simulated phishing, watches employee actions, scores human risk, predicts weak departments, assigns training, and gives leaders a live cybersecurity posture report.
               </p>
 
@@ -527,8 +527,8 @@ export default function SocDashboard() {
                   <div key={title} className="relative rounded-3xl border border-white/10 bg-[#050505]/80 p-3 min-h-32 overflow-hidden">
                     <span className="absolute right-3 top-3 font-mono text-[10px] font-black text-white/10">0{index + 1}</span>
                     <Icon className={`h-5 w-5 ${color}`} />
-                    <div className="mt-3 font-outfit text-lg font-bold text-[#EBEBEB]">{title}</div>
-                    <p className="mt-1 text-xs font-medium leading-relaxed text-white/55">{text}</p>
+                    <div className="mt-3 font-outfit text-2xl font-black text-[#EBEBEB]">{title}</div>
+                    <p className="mt-1 text-sm font-bold leading-relaxed text-white/66">{text}</p>
                   </div>
                 ))}
               </div>
@@ -555,11 +555,11 @@ export default function SocDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="cyber-metadata text-primary">AI Model Hub</p>
-              <h3 className="mt-2 font-outfit text-3xl font-bold tracking-tighter text-[#EBEBEB]">Free AI Model Mesh</h3>
+              <h3 className="mt-2 font-outfit text-4xl font-black tracking-tighter text-[#EBEBEB]">Free AI Model Mesh</h3>
             </div>
             <Cpu className="h-8 w-8 text-primary" />
           </div>
-          <p className="mt-3 text-sm font-medium leading-relaxed text-white/65">
+          <p className="mt-3 text-base font-bold leading-relaxed text-white/76">
             Demo-mode AI uses local telemetry and open/free model profiles. No paid API key is required for the dashboard analysis.
           </p>
 
@@ -572,15 +572,15 @@ export default function SocDashboard() {
                   activeModel.id === model.id ? `${model.border} shadow-[0_0_22px_rgba(16,185,129,0.10)]` : "border-white/10 bg-[#050505]/70 hover:border-primary/30"
                 }`}
               >
-                <div className={`font-mono text-xs font-black uppercase ${model.color}`}>{model.name}</div>
-                <div className="mt-1 text-[10px] font-semibold text-white/52">{model.model}</div>
+                <div className={`font-mono text-sm font-black uppercase ${model.color}`}>{model.name}</div>
+                <div className="mt-1 text-xs font-bold text-white/64">{model.model}</div>
               </button>
             ))}
           </div>
 
           <div className="mt-4 rounded-3xl border border-white/10 bg-[#050505]/70 p-4">
             <div className="cyber-metadata text-white/55">Selected model output</div>
-            <p className="mt-2 text-sm font-semibold leading-relaxed text-white/72">{activeModel.output}</p>
+            <p className="mt-2 text-base font-bold leading-relaxed text-white/82">{activeModel.output}</p>
           </div>
         </div>
       </div>
@@ -591,12 +591,12 @@ export default function SocDashboard() {
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
             <Icon className={`absolute right-4 top-4 h-11 w-11 opacity-15 ${color}`} />
             <span className="cyber-metadata text-white/58 block">{label}</span>
-            <span className={`text-5xl font-bold font-outfit tracking-tighter block my-1 ${color}`}>{value}</span>
+            <span className={`text-6xl md:text-7xl font-black font-outfit tracking-tighter block my-1 ${color}`}>{value}</span>
             <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
               <div className={`h-full rounded-full ${bar} transition-all duration-700`} style={{ width: `${Math.max(6, Math.min(100, progress))}%` }} />
             </div>
             <div className="mt-3 flex items-center justify-between gap-2 text-[9px] font-mono font-bold uppercase">
-              <span className="text-white/58">{sub}</span>
+              <span className="text-sm text-white/68">{sub}</span>
               <span className={color}>{status}</span>
             </div>
           </div>
@@ -628,8 +628,8 @@ export default function SocDashboard() {
                     </div>
                     <span className={`h-2.5 w-2.5 rounded-full ${isActive ? "bg-primary shadow-[0_0_16px_var(--primary)]" : "bg-white/20"}`} />
                   </div>
-                  <h3 className="mt-4 font-outfit text-2xl font-bold tracking-tighter text-[#EBEBEB]">{title}</h3>
-                  <p className="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-white/55">{label}</p>
+                  <h3 className="mt-4 font-outfit text-3xl font-black tracking-tighter text-[#EBEBEB]">{title}</h3>
+                  <p className="mt-2 text-sm font-black uppercase tracking-[0.16em] text-white/68">{label}</p>
                 </button>
               );
             })}
@@ -639,26 +639,26 @@ export default function SocDashboard() {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="cyber-metadata text-primary">Active AI Module</div>
-                <h3 className="mt-3 font-outfit text-4xl font-bold tracking-tighter text-[#EBEBEB]">{activeFeature.title}</h3>
+                <h3 className="mt-3 font-outfit text-5xl md:text-6xl font-black tracking-tighter text-[#EBEBEB]">{activeFeature.title}</h3>
               </div>
               <activeFeature.icon className="h-9 w-9 text-primary" />
             </div>
-            <p className="mt-4 text-base font-semibold leading-relaxed text-white/72">{activeFeature.text}</p>
+            <p className="mt-5 text-lg font-bold leading-relaxed text-white/82">{activeFeature.text}</p>
 
             <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-4">
                 <div className="cyber-metadata text-white/50">Live Metric</div>
-                <div className="mt-2 font-outfit text-3xl font-bold tracking-tighter text-primary">{activeFeature.metric}</div>
+                <div className="mt-2 font-outfit text-4xl font-black tracking-tighter text-primary">{activeFeature.metric}</div>
               </div>
               <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-4">
                 <div className="cyber-metadata text-white/50">AI Decision</div>
-                <p className="mt-2 text-sm font-semibold leading-relaxed text-white/72">{activeFeature.decision}</p>
+                <p className="mt-2 text-base font-bold leading-relaxed text-white/82">{activeFeature.decision}</p>
               </div>
             </div>
 
             <div className="mt-4 rounded-3xl border border-emerald-400/20 bg-emerald-400/[0.04] p-4">
               <div className="cyber-metadata text-primary">Recommended Automation</div>
-              <p className="mt-2 text-sm font-semibold leading-relaxed text-white/76">{activeFeature.action}</p>
+              <p className="mt-2 text-lg font-bold leading-relaxed text-white/86">{activeFeature.action}</p>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-3">
@@ -690,9 +690,9 @@ export default function SocDashboard() {
               <ArrowRight className="h-3.5 w-3.5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
             <div>
-              <div className="font-outfit text-4xl font-bold tracking-tighter text-[#EBEBEB]">{value}</div>
+              <div className="font-outfit text-5xl font-black tracking-tighter text-[#EBEBEB]">{value}</div>
               <div className="cyber-metadata text-white/70">{title}</div>
-              <p className="mt-1 text-xs font-semibold leading-relaxed text-white/55">{text}</p>
+              <p className="mt-2 text-sm font-bold leading-relaxed text-white/66">{text}</p>
             </div>
           </Link>
         ))}
@@ -718,16 +718,16 @@ export default function SocDashboard() {
                         {status}
                       </span>
                     </div>
-                    <h3 className="mt-4 font-outfit text-2xl font-bold tracking-tighter text-[#EBEBEB]">{title}</h3>
-                    <p className="mt-2 text-sm font-medium leading-relaxed text-white/66">{text}</p>
+                    <h3 className="mt-4 font-outfit text-3xl font-black tracking-tighter text-[#EBEBEB]">{title}</h3>
+                    <p className="mt-3 text-base font-bold leading-relaxed text-white/76">{text}</p>
                   </div>
                   <div className="mt-4 space-y-3">
                     <div>
                       <div className="cyber-metadata text-white/50">Proof</div>
-                      <div className="mt-1 text-xs font-semibold leading-relaxed text-white/70">{proof}</div>
+                      <div className="mt-2 text-sm font-bold leading-relaxed text-white/82">{proof}</div>
                     </div>
                     <div className="flex items-center justify-between border-t border-white/10 pt-3">
-                      <span className="font-mono text-xs font-black uppercase text-primary">{metric}</span>
+                      <span className="font-mono text-sm font-black uppercase text-primary">{metric}</span>
                       <ArrowRight className="h-3.5 w-3.5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
                     </div>
                   </div>
@@ -744,7 +744,7 @@ export default function SocDashboard() {
             glowColor="rgba(0, 255, 208, 0.14)"
           >
             <div className="rounded-3xl border border-white/10 bg-[#050505]/70 p-5">
-              <p className="text-base font-semibold leading-relaxed text-white/74">
+              <p className="text-xl font-bold leading-relaxed text-white/84">
                 PhishNet AI reduces phishing susceptibility, improves awareness, measures resilience, and strengthens security posture for high-risk organizations.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -756,7 +756,7 @@ export default function SocDashboard() {
               </div>
               <div className="mt-5 border-t border-white/10 pt-4">
                 <div className="cyber-metadata text-primary">Impact claim</div>
-                <p className="mt-2 text-sm font-semibold leading-relaxed text-white/66">
+                <p className="mt-3 text-base font-bold leading-relaxed text-white/76">
                   Enterprises, campuses, agencies, trainers, and SOC teams can prove resilience improvement using measurable user behavior instead of one-time awareness completion.
                 </p>
               </div>
@@ -779,15 +779,15 @@ export default function SocDashboard() {
                 </div>
                 <span className="font-mono text-[10px] font-black text-white/15">M{index + 1}</span>
               </div>
-              <h3 className="mt-4 font-outfit text-2xl font-bold tracking-tighter text-[#EBEBEB]">{name}</h3>
+              <h3 className="mt-4 font-outfit text-3xl font-black tracking-tighter text-[#EBEBEB]">{name}</h3>
               <div className="mt-4 space-y-3">
                 <div>
                   <div className="cyber-metadata text-white/50">Signals</div>
-                  <p className="mt-1 text-xs font-semibold leading-relaxed text-white/66">{signal}</p>
+                  <p className="mt-2 text-sm font-bold leading-relaxed text-white/76">{signal}</p>
                 </div>
                 <div>
                   <div className="cyber-metadata text-primary">Output</div>
-                  <p className="mt-1 text-xs font-bold leading-relaxed text-white/78">{output}</p>
+                  <p className="mt-2 text-base font-black leading-relaxed text-white/86">{output}</p>
                 </div>
               </div>
             </div>
@@ -808,8 +808,8 @@ export default function SocDashboard() {
                   <div className="rounded-2xl border border-primary/20 bg-primary/5 p-2 w-fit">
                     <Icon className="h-4 w-4 text-primary" />
                   </div>
-                  <h3 className="mt-3 font-outfit text-2xl font-bold tracking-tighter text-[#EBEBEB]">{title}</h3>
-                  <p className="mt-2 text-xs font-semibold leading-relaxed text-white/64">{text}</p>
+                  <h3 className="mt-3 font-outfit text-3xl font-black tracking-tighter text-[#EBEBEB]">{title}</h3>
+                  <p className="mt-2 text-sm font-bold leading-relaxed text-white/74">{text}</p>
                   <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/5 px-2.5 py-1 text-[8px] font-mono font-bold uppercase text-emerald-400">
                     <CheckCircle className="h-3 w-3" />
                     Ready
@@ -834,7 +834,7 @@ export default function SocDashboard() {
                   </div>
                   <div className="flex-1 rounded-3xl border border-white/10 bg-[#050505]/75 px-4 py-3">
                     <div className="cyber-metadata text-white/50">{layer}</div>
-                    <div className="font-outfit text-xl font-bold tracking-tighter text-[#EBEBEB]">{value}</div>
+                    <div className="font-outfit text-2xl font-black tracking-tighter text-[#EBEBEB]">{value}</div>
                   </div>
                 </div>
               ))}
@@ -855,8 +855,8 @@ export default function SocDashboard() {
                 <span className="cyber-metadata text-primary">Section {index + 1}</span>
                 <FileText className="h-4 w-4 text-primary" />
               </div>
-              <h3 className="mt-4 font-outfit text-2xl font-bold tracking-tighter text-[#EBEBEB]">{title}</h3>
-              <p className="mt-2 text-sm font-semibold leading-relaxed text-white/66">{text}</p>
+              <h3 className="mt-4 font-outfit text-3xl font-black tracking-tighter text-[#EBEBEB]">{title}</h3>
+              <p className="mt-3 text-base font-bold leading-relaxed text-white/76">{text}</p>
             </div>
           ))}
         </div>
@@ -881,32 +881,32 @@ export default function SocDashboard() {
                     <Brain className={`h-5 w-5 ${activeModel.color}`} />
                   </div>
                   <div>
-                    <h3 className="font-outfit text-3xl font-bold tracking-tighter text-[#EBEBEB]">{activeModel.name}</h3>
-                    <p className="mt-1 text-sm font-semibold leading-relaxed text-white/68">{activeModel.role}</p>
+                    <h3 className="font-outfit text-4xl font-black tracking-tighter text-[#EBEBEB]">{activeModel.name}</h3>
+                    <p className="mt-2 text-base font-bold leading-relaxed text-white/78">{activeModel.role}</p>
                   </div>
                 </div>
-                <p className="mt-5 text-base font-semibold leading-relaxed text-white/78">{aiInsight}</p>
+                <p className="mt-5 text-xl font-bold leading-relaxed text-white/86">{aiInsight}</p>
                 <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-4">
                     <div className="cyber-metadata text-white/50">Input signals</div>
-                    <p className="mt-2 text-xs font-semibold leading-relaxed text-white/68">{activeModel.signal}</p>
+                    <p className="mt-2 text-sm font-bold leading-relaxed text-white/78">{activeModel.signal}</p>
                   </div>
                   <div className="rounded-3xl border border-primary/20 bg-primary/[0.035] p-4">
                     <div className="cyber-metadata text-primary">AI output</div>
-                    <p className="mt-2 text-xs font-bold leading-relaxed text-white/78">{activeModel.output}</p>
+                    <p className="mt-2 text-sm font-black leading-relaxed text-white/86">{activeModel.output}</p>
                   </div>
                 </div>
                 <div className="mt-5 grid grid-cols-3 gap-3 font-mono text-center">
                   <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-3">
-                    <div className="text-lg font-black text-primary">{modelConfidence}%</div>
+                    <div className="text-3xl font-black text-primary">{modelConfidence}%</div>
                     <div className="text-[9px] text-white/35 uppercase">confidence</div>
                   </div>
                   <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-3">
-                    <div className="text-lg font-black text-amber-400">{stats.avgDeptRisk}</div>
+                    <div className="text-3xl font-black text-amber-400">{stats.avgDeptRisk}</div>
                     <div className="text-[9px] text-white/35 uppercase">avg risk</div>
                   </div>
                   <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-3">
-                    <div className="text-lg font-black text-rose-400">{stats.criticalUsers}</div>
+                    <div className="text-3xl font-black text-rose-400">{stats.criticalUsers}</div>
                     <div className="text-[9px] text-white/35 uppercase">critical</div>
                   </div>
                 </div>
