@@ -200,15 +200,56 @@ export default function TemplatesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-7xl space-y-8">
       
-      {/* HUD Header */}
-      <div className="flex justify-between items-center border-b border-slate-900 pb-4">
-        <div>
-          <h1 className="font-outfit text-2xl font-black tracking-wide text-slate-100 uppercase">
-            VECTOR TEMPLATES & AI LAB
-          </h1>
-          <p className="text-xs text-slate-400 font-medium">Configure phishing templates or synthesize bespoke vectors using cognitive NLP modeling.</p>
+      {/* Cyber Serif Hero */}
+      <div className="cyber-card rounded-3xl border border-white/10 bg-white/[0.02] p-8 md:p-10 overflow-hidden">
+        <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+          <div>
+            <div className="cyber-metadata mb-5 flex items-center gap-3 text-white/45">
+              <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_16px_rgba(16,185,129,0.75)] animate-pulse" />
+              Cognitive NLP Simulation Lab
+            </div>
+            <h1 className="font-outfit max-w-4xl text-6xl font-light leading-[0.9] tracking-tighter text-[#EBEBEB] md:text-7xl xl:text-[92px]">
+              Vector Templates <span className="italic text-primary">&</span> AI Lab
+            </h1>
+            <p className="mt-6 max-w-2xl text-base font-light leading-7 text-white/50">
+              Configure controlled phishing templates, inspect simulation-safe links, and synthesize bespoke awareness vectors with enterprise-grade defensive guardrails.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#vector-library" className="cyber-btn px-6 py-3 text-[10px]">
+                Explore Library
+              </a>
+              <a href="#ai-synthesizer" className="rounded-full border border-white/15 px-6 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 transition-all hover:border-primary/40 hover:text-primary">
+                Synthesize Vector
+              </a>
+            </div>
+          </div>
+
+          <div className="relative min-h-[320px]">
+            <div className="absolute inset-6 rounded-3xl border border-primary/15 bg-primary/[0.03] blur-2xl" />
+            <div className="cyber-card absolute right-0 top-0 w-[88%] rounded-3xl p-5">
+              <div className="cyber-metadata mb-5 text-primary">Live Blueprint Stack</div>
+              <div className="space-y-3">
+                {templates.slice(0, 4).map((template, index) => (
+                  <div key={template.id} className="rounded-3xl border border-white/10 bg-white/[0.025] p-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="truncate font-outfit text-lg font-medium tracking-tighter text-white/90">{template.name}</span>
+                      <span className="rounded-full border border-primary/20 px-2.5 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.18em] text-primary">V{index + 1}</span>
+                    </div>
+                    <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/5">
+                      <div className="h-full rounded-full bg-primary/70" style={{ width: `${42 + index * 14}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="cyber-card absolute bottom-2 left-0 w-[58%] rounded-3xl p-5">
+              <div className="cyber-metadata text-white/40">Safe Link Registry</div>
+              <div className="mt-4 font-outfit text-4xl font-light tracking-tighter text-primary">{templateStats.total}</div>
+              <p className="mt-1 text-xs text-white/40">compiled awareness blueprints</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -219,12 +260,12 @@ export default function TemplatesPage() {
           { label: "Expert Drills", value: templateStats.expertVectors, icon: ShieldAlert, color: "text-rose-400" },
           { label: "High Fidelity", value: `${templateStats.highFidelity}/${templateStats.total}`, icon: Activity, color: "text-emerald-400" },
         ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="cyber-card rounded-lg border border-slate-900 bg-slate-950/60 p-4">
+          <div key={label} className="cyber-card rounded-3xl border border-white/10 bg-white/[0.02] p-5">
             <div className="flex items-center justify-between">
-              <span className="text-[9px] font-mono font-bold text-slate-500 uppercase tracking-widest">{label}</span>
+              <span className="cyber-metadata text-white/35">{label}</span>
               <Icon className={`w-4 h-4 ${color}`} />
             </div>
-            <div className={`mt-2 font-outfit text-2xl font-black ${color}`}>{value}</div>
+            <div className={`mt-3 font-outfit text-4xl font-light tracking-tighter ${color}`}>{value}</div>
           </div>
         ))}
       </div>
@@ -233,36 +274,37 @@ export default function TemplatesPage() {
         
         {/* Templates index list */}
         <div className="lg:col-span-4 space-y-4">
+          <div id="vector-library">
           <DashboardCard title="VECTOR TEMPLATE FILES" subtitle="Index of compiled social engineering blueprints.">
             <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
               {templates.map((tpl) => (
                 <button
                   key={tpl.id}
                   onClick={() => setSelectedTpl(tpl)}
-                  className={`w-full text-left p-3.5 rounded-lg border font-mono transition-all flex flex-col justify-between cursor-pointer ${
+                  className={`w-full text-left p-4 rounded-3xl border font-mono transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-between cursor-pointer ${
                     selectedTpl?.id === tpl.id
-                      ? "border-primary bg-primary/5 shadow-[0_0_8px_rgba(0,240,255,0.05)]"
-                      : "border-slate-900 bg-slate-950/20 hover:border-slate-800 hover:bg-slate-900/10"
+                      ? "border-primary/35 bg-white/[0.035] shadow-[0_0_22px_rgba(16,185,129,0.08)]"
+                      : "border-white/10 bg-white/[0.015] hover:border-primary/25 hover:bg-white/[0.025]"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-bold text-slate-300 truncate max-w-[150px]">{tpl.name}</span>
-                    <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold ${
-                      tpl.difficulty === "Easy" ? "bg-emerald-950 text-emerald-400 border border-emerald-900/40" :
-                      tpl.difficulty === "Medium" ? "bg-sky-950 text-sky-400 border border-sky-900/40" :
-                      tpl.difficulty === "Hard" ? "bg-amber-950 text-amber-400 border border-amber-900/40" :
-                      "bg-rose-950 text-rose-400 border border-rose-900/40"
+                    <span className="font-outfit text-base font-medium tracking-tighter text-white/85 truncate max-w-[190px]">{tpl.name}</span>
+                    <span className={`px-2.5 py-1 rounded-full text-[8px] font-bold tracking-[0.18em] ${
+                      tpl.difficulty === "Easy" ? "bg-white/[0.02] text-emerald-300 border border-emerald-400/25" :
+                      tpl.difficulty === "Medium" ? "bg-white/[0.02] text-white/55 border border-white/10" :
+                      tpl.difficulty === "Hard" ? "bg-white/[0.02] text-amber-300 border border-amber-300/25" :
+                      "bg-white/[0.02] text-rose-300 border border-rose-300/25"
                     }`}>
                       {tpl.difficulty}
                     </span>
                   </div>
-                  <div className="flex justify-between text-[9px] text-slate-500 mt-1">
+                  <div className="flex justify-between cyber-metadata text-white/35 mt-1">
                     <span>{tpl.category}</span>
-                    <span className="text-primary hover:underline flex items-center gap-1">
+                    <span className="cyber-link text-primary flex items-center gap-1">
                       VIEW VECTOR <Eye className="w-3 h-3" />
                     </span>
                   </div>
-                  <div className="mt-2 flex items-center gap-1.5 text-[8px] text-slate-600">
+                  <div className="mt-3 flex items-center gap-1.5 text-[8px] text-white/25">
                     <Link2 className="w-3 h-3 text-primary/70" />
                     <span className="truncate">{getSimulationLink(tpl)}</span>
                   </div>
@@ -270,26 +312,28 @@ export default function TemplatesPage() {
               ))}
             </div>
           </DashboardCard>
+          </div>
 
           {/* AI Generator Tool */}
+          <div id="ai-synthesizer">
           <DashboardCard title="AI BESPOKE SYNTHESIZER" subtitle="Automated NLP phishing template architect.">
             <div className="space-y-4 text-left font-mono text-xs">
               <div>
-                <label className="block text-[9px] text-slate-500 font-bold uppercase mb-1">TARGET SEGMENT / ROLE</label>
+                <label className="cyber-metadata block text-white/35 mb-2">TARGET SEGMENT / ROLE</label>
                 <input
                   type="text"
                   value={targetPersona}
                   onChange={(e) => setTargetPersona(e.target.value)}
-                  className="w-full bg-[#04040c] border border-slate-900 focus:border-primary/50 text-slate-300 p-2 rounded text-[11px] outline-none"
+                  className="w-full rounded-full bg-white/[0.02] border border-white/10 focus:border-primary/45 text-white/75 px-4 py-3 text-[11px] outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-[9px] text-slate-500 font-bold uppercase mb-1">SCENARIO ATTACK ROUTE</label>
+                <label className="cyber-metadata block text-white/35 mb-2">SCENARIO ATTACK ROUTE</label>
                 <select
                   value={scenarioType}
                   onChange={(e) => setScenarioType(e.target.value)}
-                  className="w-full bg-[#04040c] border border-slate-900 focus:border-primary/50 text-slate-300 p-2 rounded text-[11px] outline-none appearance-none"
+                  className="w-full rounded-full bg-[#050505] border border-white/10 focus:border-primary/45 text-white/75 px-4 py-3 text-[11px] outline-none appearance-none transition-colors"
                 >
                   <option value="SSO Password Expiry">SSO Password Expiry (Harvesting)</option>
                   <option value="HR Payroll Scam">HR payroll adjustment (Urgency)</option>
@@ -301,11 +345,11 @@ export default function TemplatesPage() {
               </div>
 
               <div>
-                <label className="block text-[9px] text-slate-500 font-bold uppercase mb-1">URGENCY COEFFICIENT</label>
+                <label className="cyber-metadata block text-white/35 mb-2">URGENCY COEFFICIENT</label>
                 <select
                   value={urgency}
                   onChange={(e) => setUrgency(e.target.value)}
-                  className="w-full bg-[#04040c] border border-slate-900 focus:border-primary/50 text-slate-300 p-2 rounded text-[11px] outline-none appearance-none"
+                  className="w-full rounded-full bg-[#050505] border border-white/10 focus:border-primary/45 text-white/75 px-4 py-3 text-[11px] outline-none appearance-none transition-colors"
                 >
                   <option value="Low">Low (Safe check)</option>
                   <option value="Medium">Medium (General)</option>
@@ -317,14 +361,14 @@ export default function TemplatesPage() {
               <button
                 onClick={handleAiGenerate}
                 disabled={generating}
-                className="cyber-btn w-full py-2.5 rounded text-[10px] tracking-wider font-extrabold flex items-center justify-center gap-1.5 cursor-pointer"
+                className="cyber-btn w-full py-3 text-[10px] tracking-[0.2em] font-extrabold flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5" /> SYNTHESIZE PAYLOAD
               </button>
 
               {/* Generator logs console */}
               {(generating || generatorLogs.length > 0) && (
-                <div className="bg-[#030308]/90 border border-slate-900 p-3 rounded text-[9px] leading-tight space-y-1 text-slate-400 font-mono h-24 overflow-y-auto">
+                <div className="bg-white/[0.02] border border-white/10 p-4 rounded-3xl text-[9px] leading-tight space-y-1 text-white/45 font-mono h-28 overflow-y-auto">
                   {generatorLogs.filter(Boolean).map((log, index) => (
                     <div key={index} className={log && typeof log === "string" && log.startsWith("[OK]") ? "text-emerald-400" : ""}>
                       {log}
@@ -340,6 +384,7 @@ export default function TemplatesPage() {
               )}
             </div>
           </DashboardCard>
+          </div>
         </div>
 
         {/* Selected vector preview details */}
@@ -350,25 +395,25 @@ export default function TemplatesPage() {
             <DashboardCard
               title={`SYNTHESIZED BESPOKE PAYLOAD (PREVIEW)`}
               subtitle="Result of NLP contextual generation. Use this draft to spin campaigns."
-              glowColor="rgba(157,78,221,0.2)"
+              glowColor="rgba(16,185,129,0.14)"
             >
               <div className="space-y-4 font-mono text-xs">
-                <div className="border border-slate-900 rounded p-3 bg-slate-950/80 space-y-1.5">
-                  <div className="flex justify-between border-b border-slate-900 pb-1.5">
-                    <span className="text-slate-500 font-bold">EMAIL SUBJECT:</span>
-                    <span className="text-slate-200 font-bold">{generatedTemplate.subject}</span>
+                <div className="border border-white/10 rounded-3xl p-4 bg-white/[0.02] space-y-3">
+                  <div className="flex justify-between border-b border-white/10 pb-2 gap-4">
+                    <span className="cyber-metadata text-white/35">EMAIL SUBJECT:</span>
+                    <span className="text-white/85 font-bold text-right">{generatedTemplate.subject}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500 font-bold">SENDER MASK:</span>
+                    <span className="cyber-metadata text-white/35">SENDER MASK:</span>
                     <span className="text-amber-500">{generatedTemplate.sender}</span>
                   </div>
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-t border-slate-900 pt-2">
-                    <span className="text-slate-500 font-bold">SAFE SIMULATION LINK:</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-t border-white/10 pt-3">
+                    <span className="cyber-metadata text-white/35">SAFE SIMULATION LINK:</span>
                     <div className="flex items-center gap-2">
                       <code className="text-primary text-[10px] break-all">{generatedTemplate.landingPageUrl}&mode=lab-preview</code>
                       <button
                         onClick={() => copySimulationLink(`${generatedTemplate.landingPageUrl}&mode=lab-preview`)}
-                        className="p-1.5 rounded border border-slate-800 text-slate-400 hover:text-primary hover:border-primary/40 transition-colors"
+                        className="p-2 rounded-full border border-white/10 text-white/45 hover:text-primary hover:border-primary/40 transition-colors"
                         title="Copy safe simulation link"
                       >
                         <Copy className="w-3 h-3" />
@@ -377,15 +422,15 @@ export default function TemplatesPage() {
                   </div>
                 </div>
 
-                <div className="border border-slate-900 rounded bg-[#030308]/60 p-4 min-h-[160px] overflow-auto flex items-center justify-center">
-                  <div className="w-full bg-white text-slate-950 rounded p-4 font-sans text-sm" dangerouslySetInnerHTML={{ __html: generatedTemplate.body }}></div>
+                <div className="border border-white/10 rounded-3xl bg-white/[0.015] p-4 min-h-[160px] overflow-auto flex items-center justify-center">
+                  <div className="w-full bg-white text-slate-950 rounded-3xl p-5 font-sans text-sm" dangerouslySetInnerHTML={{ __html: generatedTemplate.body }}></div>
                 </div>
 
-                <div className="border border-slate-900 p-4 rounded bg-slate-950/40 space-y-2">
-                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                <div className="border border-white/10 p-4 rounded-3xl bg-white/[0.02] space-y-2">
+                  <span className="cyber-metadata text-white/45 flex items-center gap-1">
                     <ShieldAlert className="w-4 h-4 text-primary" /> AI-GENERATED TRAINING CLUES
                   </span>
-                  <div className="space-y-1.5 text-slate-300 text-[11px] leading-relaxed">
+                  <div className="space-y-2 text-white/60 text-[11px] leading-relaxed">
                     {generatedTemplate.indicators.map((indicator, index) => (
                       <div key={indicator} className="flex gap-2 items-start">
                         <span className="text-primary font-bold">{index + 1}.</span>
@@ -395,8 +440,8 @@ export default function TemplatesPage() {
                   </div>
                 </div>
 
-                <div className="flex justify-between border-t border-slate-900 pt-3">
-                  <span className="text-slate-500 text-[10px] flex items-center gap-1">
+                <div className="flex flex-wrap justify-between gap-3 border-t border-white/10 pt-4">
+                  <span className="text-white/35 text-[10px] flex items-center gap-1">
                     <Cpu className="w-3.5 h-3.5 text-primary" /> COGNITIVE SCORE: 98% SUCCESS ESTIMATED
                   </span>
                   <button
@@ -405,7 +450,7 @@ export default function TemplatesPage() {
                       setGeneratedTemplate(null);
                       setGeneratorLogs([]);
                     }}
-                    className="px-3.5 py-1.5 bg-primary text-slate-950 rounded text-[10px] font-bold cursor-pointer hover:bg-primary/85 flex items-center gap-1"
+                    className="cyber-btn px-4 py-2 text-[10px] font-bold cursor-pointer flex items-center gap-1"
                   >
                     <Check className="w-3 h-3" /> EXPORT TO CAMPAIGNS
                   </button>
@@ -420,29 +465,29 @@ export default function TemplatesPage() {
               <div className="space-y-4 font-mono text-xs">
                 
                 {/* Details */}
-                <div className="border border-slate-900 rounded p-3 bg-slate-950/80 space-y-1.5">
-                  <div className="flex flex-col sm:flex-row sm:justify-between border-b border-slate-900 pb-1.5 gap-1">
-                    <span className="text-slate-500 font-bold">EMAIL SUBJECT:</span>
-                    <span className="text-slate-200 font-bold">{selectedTpl.subject}</span>
+                <div className="border border-white/10 rounded-3xl p-4 bg-white/[0.02] space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between border-b border-white/10 pb-2 gap-2">
+                    <span className="cyber-metadata text-white/35">EMAIL SUBJECT:</span>
+                    <span className="text-white/85 font-bold">{selectedTpl.subject}</span>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                    <span className="text-slate-500 font-bold">SENDER MASS MASK:</span>
+                    <span className="cyber-metadata text-white/35">SENDER MASS MASK:</span>
                     <span className="text-amber-500">{selectedTpl.sender}</span>
                   </div>
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-t border-slate-900 pt-2">
-                    <span className="text-slate-500 font-bold">SAFE SIMULATION LINK:</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-t border-white/10 pt-3">
+                    <span className="cyber-metadata text-white/35">SAFE SIMULATION LINK:</span>
                     <div className="flex flex-wrap items-center gap-2">
                       <code className="text-primary text-[10px] break-all">{getSimulationLink(selectedTpl)}</code>
                       <button
                         onClick={() => copySimulationLink(getSimulationLink(selectedTpl))}
-                        className="p-1.5 rounded border border-slate-800 text-slate-400 hover:text-primary hover:border-primary/40 transition-colors"
+                        className="p-2 rounded-full border border-white/10 text-white/45 hover:text-primary hover:border-primary/40 transition-colors"
                         title="Copy safe simulation link"
                       >
                         <Copy className="w-3 h-3" />
                       </button>
                       <a
                         href={getSimulationLink(selectedTpl)}
-                        className="p-1.5 rounded border border-slate-800 text-slate-400 hover:text-emerald-400 hover:border-emerald-400/40 transition-colors"
+                        className="p-2 rounded-full border border-white/10 text-white/45 hover:text-emerald-400 hover:border-emerald-400/40 transition-colors"
                         title="Open safe simulation portal"
                       >
                         <ExternalLink className="w-3 h-3" />
@@ -453,25 +498,25 @@ export default function TemplatesPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {getVectorProfile(selectedTpl).map((item) => (
-                    <div key={item.label} className="rounded-lg border border-slate-900 bg-slate-950/50 p-3">
-                      <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">{item.label}</p>
-                      <p className="mt-1 text-[11px] text-slate-200 font-bold capitalize">{item.value}</p>
+                    <div key={item.label} className="rounded-3xl border border-white/10 bg-white/[0.02] p-4">
+                      <p className="cyber-metadata text-white/35">{item.label}</p>
+                      <p className="mt-2 text-[12px] text-white/75 font-bold capitalize">{item.value}</p>
                     </div>
                   ))}
                 </div>
 
                 {/* Email Body */}
-                <div className="border border-slate-900 rounded bg-[#030308]/60 p-4 min-h-[160px] max-h-72 overflow-y-auto flex items-center justify-center">
-                  <div className="w-full bg-white text-slate-950 rounded p-4 font-sans text-sm" dangerouslySetInnerHTML={{ __html: selectedTpl.body.replace("{{SIM_LINK}}", getSimulationLink(selectedTpl)) }}></div>
+                <div className="border border-white/10 rounded-3xl bg-white/[0.015] p-4 min-h-[160px] max-h-72 overflow-y-auto flex items-center justify-center">
+                  <div className="w-full bg-white text-slate-950 rounded-3xl p-5 font-sans text-sm" dangerouslySetInnerHTML={{ __html: selectedTpl.body.replace("{{SIM_LINK}}", getSimulationLink(selectedTpl)) }}></div>
                 </div>
 
                 {/* Explanatory Indicators */}
-                <div className="border border-slate-900 p-4 rounded bg-slate-950/40 space-y-2">
-                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                <div className="border border-white/10 p-4 rounded-3xl bg-white/[0.02] space-y-2">
+                  <span className="cyber-metadata text-white/45 flex items-center gap-1">
                     <ShieldAlert className="w-4 h-4 text-primary" /> PHISHING TRAINING INDICATORS (CLUES)
                   </span>
                   
-                  <div className="space-y-1.5 text-slate-300 text-[11px] leading-relaxed">
+                  <div className="space-y-2 text-white/60 text-[11px] leading-relaxed">
                     {selectedTpl.indicators.map((ind, i) => (
                       <div key={i} className="flex gap-2 items-start">
                         <span className="text-primary font-bold">{i + 1}.</span>
@@ -483,7 +528,7 @@ export default function TemplatesPage() {
               </div>
             </DashboardCard>
           ) : (
-            <div className="p-8 rounded-xl border border-dashed border-slate-800 bg-slate-950/20 text-center font-mono text-xs text-slate-500">
+            <div className="p-8 rounded-3xl border border-dashed border-white/10 bg-white/[0.02] text-center font-mono text-xs text-white/35">
               Select a template from the index files to inspect payload coordinates.
             </div>
           )}

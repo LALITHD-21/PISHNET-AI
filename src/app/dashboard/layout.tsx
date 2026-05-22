@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Shield, LayoutDashboard, Send, FileCode, Users, GraduationCap, Bot, Bomb, FileSpreadsheet, Settings, LogOut, RefreshCw, BarChart3, UserCircle } from "lucide-react";
+import { Command, LayoutDashboard, Send, FileCode, Users, GraduationCap, Bot, Bomb, FileSpreadsheet, Settings, LogOut, RefreshCw, BarChart3, UserCircle } from "lucide-react";
 import { useSim } from "@/context/SimContext";
 
 interface SidebarLinkProps {
@@ -17,13 +17,13 @@ function SidebarLink({ href, icon, label, active }: SidebarLinkProps) {
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3.5 px-4 py-3 rounded-lg text-xs font-semibold tracking-wider font-mono transition-all uppercase ${
+      className={`cyber-link flex items-center gap-3.5 px-4 py-3 rounded-full text-xs font-semibold tracking-[0.2em] font-mono transition-all uppercase ${
         active
-          ? "bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(0,240,255,0.08)]"
-          : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 border border-transparent"
+          ? "bg-white/[0.03] text-primary border border-primary/25 shadow-[0_0_18px_rgba(16,185,129,0.10)]"
+          : "text-white/45 hover:text-[#EBEBEB] hover:bg-white/[0.025] border border-transparent"
       }`}
     >
-      <span className={active ? "text-primary" : "text-slate-500"}>{icon}</span>
+      <span className={active ? "text-primary" : "text-white/30"}>{icon}</span>
       {label}
     </Link>
   );
@@ -70,24 +70,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   ];
 
   return (
-    <div className="flex h-screen bg-[#020205] text-slate-100 overflow-hidden font-sans relative">
+    <div className="flex h-screen bg-[#050505] text-[#EBEBEB] overflow-hidden font-sans relative">
       {/* CRT Scanline Overlay */}
       <div className="scanline"></div>
 
       {/* Cyber Grid overlay */}
       <div className="cyber-grid absolute inset-0 z-0"></div>
+      <div className="cyber-ambient-glow -left-32 top-24 z-0 opacity-80"></div>
+      <div className="cyber-ambient-glow bottom-8 right-12 z-0 opacity-45 [animation-delay:-3s]"></div>
 
       {/* Sidebar Navigation */}
-      <aside className="hidden lg:flex w-64 border-r border-slate-900 bg-slate-950/80 backdrop-blur-md flex-col justify-between z-10 relative">
+      <aside className="hidden lg:flex w-72 border-r border-white/10 bg-black/80 backdrop-blur-md flex-col justify-between z-10 relative">
         <div>
           {/* Logo Brand */}
-          <div className="p-6 border-b border-slate-900/60 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-secondary p-[1px] flex items-center justify-center shadow-[0_0_12px_rgba(0,240,255,0.25)]">
-              <div className="w-full h-full bg-slate-950 rounded-lg flex items-center justify-center">
-                <Shield className="w-4.5 h-4.5 text-primary" />
-              </div>
+          <div className="p-6 border-b border-white/10 flex items-center gap-3 group">
+            <div className="w-9 h-9 rounded-xl bg-white text-[#050505] flex items-center justify-center shadow-[0_0_24px_rgba(16,185,129,0.18)] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-[360deg]">
+              <Command className="w-4.5 h-4.5" />
             </div>
-            <span className="font-outfit text-md font-extrabold tracking-widest bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent text-glow-primary">
+            <span className="font-outfit text-2xl font-semibold tracking-tighter gradient-text">
               PHISHNET AI
             </span>
           </div>
@@ -107,11 +107,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
 
         {/* Footer controls */}
-        <div className="p-4 border-t border-slate-900/60 space-y-2">
+        <div className="p-4 border-t border-white/10 space-y-2">
           {/* Reset button */}
           <button
             onClick={handleReset}
-            className="w-full flex items-center gap-3.5 px-4 py-2.5 rounded-lg text-xs font-semibold tracking-wider font-mono text-amber-500 hover:text-amber-400 hover:bg-amber-500/5 border border-transparent transition-all uppercase cursor-pointer"
+            className="w-full flex items-center gap-3.5 px-4 py-2.5 rounded-full text-xs font-semibold tracking-[0.2em] font-mono text-white/45 hover:text-primary hover:bg-white/[0.025] border border-transparent transition-all uppercase cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />
             RESET FACTORY DATA
@@ -120,7 +120,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {/* Logout */}
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3.5 px-4 py-2.5 rounded-lg text-xs font-semibold tracking-wider font-mono text-slate-400 hover:text-rose-500 hover:bg-rose-500/5 border border-transparent transition-all uppercase cursor-pointer"
+            className="w-full flex items-center gap-3.5 px-4 py-2.5 rounded-full text-xs font-semibold tracking-[0.2em] font-mono text-white/45 hover:text-rose-300 hover:bg-white/[0.025] border border-transparent transition-all uppercase cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             EXIT GATEWAY
@@ -131,28 +131,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Main Console window */}
       <div className="flex-1 flex flex-col overflow-hidden z-10 relative">
         {/* Header Console */}
-        <header className="h-16 border-b border-slate-900 bg-slate-950/65 backdrop-blur-md px-6 flex items-center justify-between">
+        <header className="h-16 border-b border-white/10 bg-black/80 backdrop-blur-md px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h2 className="font-outfit text-sm font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2 text-glow-primary">
+            <h2 className="font-space-grotesk text-[10px] font-bold uppercase tracking-[0.2em] text-[#EBEBEB] flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_var(--primary)]"></span>
               PHISHNET MONITORING GRID
             </h2>
-            <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-slate-900/60 border border-slate-800 rounded font-mono text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+            <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-white/[0.02] border border-white/10 rounded-full font-mono text-[9px] text-white/40 font-bold uppercase tracking-[0.2em]">
               <span>NODE: EAST-US-GATEWAY</span>
             </div>
-            <div className="hidden xl:flex items-center gap-2 px-3 py-1 bg-slate-900/60 border border-slate-800 rounded font-mono text-[9px] text-emerald-400 font-bold uppercase tracking-wider">
+            <div className="hidden xl:flex items-center gap-2 px-3 py-1 bg-white/[0.02] border border-primary/20 rounded-full font-mono text-[9px] text-primary font-bold uppercase tracking-[0.2em]">
               <span>SCANNER: ACTIVE</span>
             </div>
           </div>
 
           <div className="flex items-center gap-4 text-left">
             <div className="font-mono text-xs">
-              <span className="text-[9px] text-slate-500 block leading-none uppercase font-bold text-right">OPERATOR ROLE</span>
-              <span className="text-slate-300 font-bold">{currentUser?.name || "Analyst Stark"} ({currentUser?.role || "Super Admin"})</span>
+              <span className="text-[9px] text-white/35 block leading-none uppercase font-bold text-right tracking-[0.2em]">OPERATOR ROLE</span>
+              <span className="text-white/75 font-bold">{currentUser?.name || "Analyst Stark"} ({currentUser?.role || "Super Admin"})</span>
             </div>
             
             {/* Quick avatar badge */}
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-primary/30 to-secondary/30 flex items-center justify-center border border-primary/20">
+            <div className="w-9 h-9 rounded-full bg-white/[0.03] flex items-center justify-center border border-primary/20 shadow-[0_0_24px_rgba(16,185,129,0.10)]">
               <span className="font-mono text-xs text-primary font-bold">
                 {(currentUser?.name || "AS").substring(0, 2).toUpperCase()}
               </span>
@@ -160,16 +160,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </header>
 
-        <div className="lg:hidden border-b border-slate-900 bg-slate-950/70 backdrop-blur-md px-3 py-2 overflow-x-auto">
+        <div className="lg:hidden border-b border-white/10 bg-black/80 backdrop-blur-md px-3 py-2 overflow-x-auto">
           <div className="flex gap-2 min-w-max">
             {sidebarLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-[10px] font-bold font-mono uppercase tracking-wider border ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-full text-[10px] font-bold font-mono uppercase tracking-[0.2em] border ${
                   pathname === link.href
-                    ? "border-primary/30 bg-primary/10 text-primary"
-                    : "border-slate-800 text-slate-400 bg-slate-950/40"
+                    ? "border-primary/30 bg-white/[0.03] text-primary"
+                    : "border-white/10 text-white/45 bg-white/[0.02]"
                 }`}
               >
                 {link.icon}
@@ -180,7 +180,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto bg-[#020205] p-6 relative">
+        <main className="flex-1 overflow-y-auto bg-[#050505] p-6 relative">
           {children}
         </main>
       </div>
