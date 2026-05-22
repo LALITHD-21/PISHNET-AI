@@ -1,8 +1,25 @@
 "use client";
 
-import React, { useMemo } from "react";
+import Link from "next/link";
+import React, { useMemo, useState } from "react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { Shield, CheckCircle, Flame, Target, RefreshCw } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Brain,
+  CheckCircle,
+  FileSpreadsheet,
+  Flame,
+  GraduationCap,
+  Layers,
+  Lock,
+  MailCheck,
+  RefreshCw,
+  Rocket,
+  Shield,
+  Target,
+  Users
+} from "lucide-react";
 import { useSim } from "@/context/SimContext";
 import DashboardCard from "@/components/DashboardCard";
 import RadarScan from "@/components/RadarScan";
@@ -10,7 +27,8 @@ import LiveThreatMap from "@/components/LiveThreatMap";
 import ChartMount from "@/components/ChartMount";
 
 export default function SocDashboard() {
-  const { campaigns, departments, logs } = useSim();
+  const { campaigns, departments, employees, logs, templates, trainingCourses, runPrototypeDemo } = useSim();
+  const [demoRan, setDemoRan] = useState(false);
 
   // Aggregate global statistics
   const stats = useMemo(() => {
@@ -67,6 +85,32 @@ export default function SocDashboard() {
     return { text: "OPTIMIZED SHIELD", color: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20" };
   }, [stats]);
 
+  const assignedTrainingCount = useMemo(() => trainingCourses.filter((course) => course.status === "Assigned").length, [trainingCourses]);
+  const criticalEmployeeCount = useMemo(() => employees.filter((employee) => employee.riskScore >= 80).length, [employees]);
+  const activeCampaign = useMemo(() => campaigns.find((campaign) => campaign.status === "Active"), [campaigns]);
+
+  const problemFlow = [
+    { label: "Launch", detail: "Admin deploys safe phishing campaign", icon: Rocket, color: "text-primary" },
+    { label: "Observe", detail: "Opens, clicks, reports, and demo submissions update live", icon: MailCheck, color: "text-amber-400" },
+    { label: "Score", detail: "Human risk scores change by user and department", icon: Brain, color: "text-secondary" },
+    { label: "Train", detail: "Adaptive courses unlock for failed users", icon: GraduationCap, color: "text-accent" },
+    { label: "Report", detail: "Executive analytics exports prove posture", icon: FileSpreadsheet, color: "text-emerald-400" }
+  ];
+
+  const featureTiles = [
+    { label: "AI templates", value: templates.length, sub: "attack scenarios", href: "/dashboard/templates", icon: Layers, color: "text-primary" },
+    { label: "Employees", value: employees.length, sub: "risk profiles", href: "/dashboard/risk", icon: Users, color: "text-secondary" },
+    { label: "Critical users", value: criticalEmployeeCount, sub: "need action", href: "/dashboard/risk", icon: Flame, color: "text-rose-400" },
+    { label: "Training", value: assignedTrainingCount, sub: "assigned modules", href: "/dashboard/training", icon: GraduationCap, color: "text-accent" },
+    { label: "AI coach", value: "Live", sub: "insight assistant", href: "/dashboard/ai-coach", icon: Bot, color: "text-primary" },
+    { label: "Safe lab", value: "6+", sub: "simulation modes", href: "/dashboard/lab", icon: Lock, color: "text-emerald-400" }
+  ];
+
+  const handleRunDemo = () => {
+    runPrototypeDemo();
+    setDemoRan(true);
+  };
+
   return (
     <div className="space-y-6">
       
@@ -92,6 +136,116 @@ export default function SocDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Prototype Story Deck */}
+      <div className="cyber-card rounded-xl border border-primary/20 bg-slate-950/60 p-5 md:p-6 relative overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-70" />
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
+          <div className="xl:col-span-5 text-left flex flex-col justify-between gap-5">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-primary">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                Simple prototype mode
+              </div>
+              <h2 className="mt-4 font-outfit text-2xl md:text-3xl font-black tracking-tight text-slate-100">
+                One screen. Full phishing awareness lifecycle.
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-slate-400 max-w-xl">
+                PhishNet AI solves the problem statement by safely simulating realistic phishing attacks, measuring employee behavior, scoring human cyber risk, assigning training, and generating executive-ready intelligence.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
+              {[
+                { label: "Campaigns", value: campaigns.length },
+                { label: "Events", value: logs.length },
+                { label: "Departments", value: departments.length },
+                { label: "Risk users", value: criticalEmployeeCount }
+              ].map((item) => (
+                <div key={item.label} className="rounded-lg border border-slate-900 bg-[#030308]/70 p-3">
+                  <div className="text-xl font-black font-outfit text-slate-100">{item.value}</div>
+                  <div className="text-[9px] uppercase tracking-wider text-slate-500">{item.label}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={handleRunDemo}
+                className="cyber-btn rounded px-5 py-3 text-[11px] font-mono flex items-center gap-2 cursor-pointer"
+              >
+                <Rocket className="h-4 w-4" />
+                Run judge demo
+              </button>
+              <Link
+                href="/portal"
+                className="rounded border border-slate-800 bg-slate-950/80 px-5 py-3 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 hover:border-primary/40 hover:text-primary transition-colors flex items-center gap-2"
+              >
+                Employee portal <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/dashboard/reports"
+                className="rounded border border-slate-800 bg-slate-950/80 px-5 py-3 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 hover:border-accent/40 hover:text-accent transition-colors flex items-center gap-2"
+              >
+                Export reports <FileSpreadsheet className="h-4 w-4" />
+              </Link>
+            </div>
+
+            {demoRan && (
+              <div className="rounded border border-emerald-500/20 bg-emerald-500/5 p-3 text-[11px] font-mono font-bold text-emerald-400">
+                DEMO COMPLETE: live campaign, risky users, training assignments, AI brief, and report data have been generated.
+              </div>
+            )}
+          </div>
+
+          <div className="xl:col-span-7 grid grid-cols-1 md:grid-cols-5 gap-3">
+            {problemFlow.map(({ label, detail, icon: Icon, color }, index) => (
+              <div key={label} className="rounded-xl border border-slate-900 bg-[#030308]/65 p-4 min-h-36 flex flex-col justify-between">
+                <div>
+                  <div className={`h-9 w-9 rounded-lg border border-current/20 bg-current/5 flex items-center justify-center ${color}`}>
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <div className="mt-4 text-[10px] font-mono text-slate-500">STEP 0{index + 1}</div>
+                  <div className="font-outfit text-sm font-bold text-slate-100 uppercase">{label}</div>
+                </div>
+                <p className="text-[10px] leading-relaxed text-slate-400 font-medium mt-3">{detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Feature Overload Console */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-6 gap-4">
+        {featureTiles.map(({ label, value, sub, href, icon: Icon, color }) => (
+          <Link
+            key={label}
+            href={href}
+            className="cyber-card rounded-xl border border-slate-900 bg-slate-950/40 p-4 hover:border-primary/30 transition-all min-h-28 flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between">
+              <Icon className={`h-5 w-5 ${color}`} />
+              <ArrowRight className="h-3.5 w-3.5 text-slate-600" />
+            </div>
+            <div>
+              <div className={`font-outfit text-2xl font-black ${color}`}>{value}</div>
+              <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-300">{label}</div>
+              <div className="text-[9px] font-mono uppercase tracking-wider text-slate-600">{sub}</div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {activeCampaign && (
+        <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3 font-mono text-[11px] text-amber-200 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <span>
+            ACTIVE STORY: <strong>{activeCampaign.name}</strong> is running across {activeCampaign.targetDepartments.length} departments with {activeCampaign.emailsSent} safe simulated deliveries.
+          </span>
+          <Link href="/dashboard/campaigns" className="text-amber-400 font-bold hover:text-amber-300 flex items-center gap-1">
+            inspect campaign <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      )}
 
       {/* Main Aggregated KPIs Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Shield, Mail, UserCheck } from "lucide-react";
+import { Rocket, Shield, Mail, UserCheck } from "lucide-react";
 import { useSim, Role } from "@/context/SimContext";
 import CyberParticles from "@/components/CyberParticles";
 
@@ -33,6 +33,11 @@ export default function LoginPage() {
     } else {
       setError("Invalid login credentials.");
     }
+  };
+
+  const handleJudgeDemo = () => {
+    loginUser("analyst@phishnet.ai", "Super Admin", "Judge Demo Analyst");
+    router.push("/dashboard/soc");
   };
 
   return (
@@ -74,6 +79,18 @@ export default function LoginPage() {
             <span className="w-1 h-3.5 bg-primary rounded-full shadow-[0_0_8px_var(--primary)]"></span>
             LOGIN TO TERMINAL
           </h3>
+
+          <button
+            type="button"
+            onClick={handleJudgeDemo}
+            className="w-full mb-5 rounded-lg border border-primary/30 bg-primary/10 px-4 py-3 text-left font-mono text-xs font-bold text-primary hover:bg-primary hover:text-slate-950 transition-all cursor-pointer flex items-center justify-between group"
+          >
+            <span>
+              ONE-CLICK JUDGE DEMO
+              <span className="block text-[9px] font-medium opacity-80 mt-0.5">Skip setup and open the full SOC prototype instantly</span>
+            </span>
+            <Rocket className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </button>
 
           {error && (
             <div className="bg-red-950/40 border border-red-900/60 text-red-400 text-xs p-3 rounded mb-4 font-mono">
