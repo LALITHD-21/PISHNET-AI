@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 3001",
-    "build": "next build --turbopack",
-    "start": "next start -p 3001",
+    "build": "next build --turbopack && node scripts/prepare-standalone.mjs",
+    "start": "node scripts/start-standalone.mjs",
     "lint": "eslint",
     "dev:api": "cd server && npm run dev",
     "dev:ai": "cd ai-service && python -m uvicorn main:app --reload --port 8000",

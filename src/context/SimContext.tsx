@@ -504,22 +504,34 @@ export const SimProvider = ({ children }: { children: ReactNode }) => {
   // Initialize from LocalStorage if available
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedUser = localStorage.getItem("phishnet_current_user");
-      const storedDepts = localStorage.getItem("phishnet_depts");
-      const storedEmps = localStorage.getItem("phishnet_employees");
-      const storedCamps = localStorage.getItem("phishnet_campaigns");
-      const storedLogs = localStorage.getItem("phishnet_logs");
-      const storedChat = localStorage.getItem("phishnet_chat");
-      const storedCourses = localStorage.getItem("phishnet_courses");
+      const readStoredJson = <T,>(key: string): T | null => {
+        const raw = localStorage.getItem(key);
+        if (!raw) return null;
+
+        try {
+          return JSON.parse(raw) as T;
+        } catch {
+          localStorage.removeItem(key);
+          return null;
+        }
+      };
+
+      const storedUser = readStoredJson<User>("phishnet_current_user");
+      const storedDepts = readStoredJson<Department[]>("phishnet_depts");
+      const storedEmps = readStoredJson<Employee[]>("phishnet_employees");
+      const storedCamps = readStoredJson<Campaign[]>("phishnet_campaigns");
+      const storedLogs = readStoredJson<SimLog[]>("phishnet_logs");
+      const storedChat = readStoredJson<ChatMessage[]>("phishnet_chat");
+      const storedCourses = readStoredJson<TrainingCourse[]>("phishnet_courses");
       const storedActiveCamp = localStorage.getItem("phishnet_active_campaign_id");
 
-      if (storedUser) setCurrentUser(JSON.parse(storedUser));
-      if (storedDepts) setDepartments(JSON.parse(storedDepts));
-      if (storedEmps) setEmployees(JSON.parse(storedEmps));
-      if (storedCamps) setCampaigns(JSON.parse(storedCamps));
-      if (storedLogs) setLogs(JSON.parse(storedLogs));
-      if (storedChat) setChatMessages(JSON.parse(storedChat));
-      if (storedCourses) setTrainingCourses(JSON.parse(storedCourses));
+      if (storedUser) setCurrentUser(storedUser);
+      if (storedDepts) setDepartments(storedDepts);
+      if (storedEmps) setEmployees(storedEmps);
+      if (storedCamps) setCampaigns(storedCamps);
+      if (storedLogs) setLogs(storedLogs);
+      if (storedChat) setChatMessages(storedChat);
+      if (storedCourses) setTrainingCourses(storedCourses);
       if (storedActiveCamp) setActiveCampaignId(storedActiveCamp);
     }
   }, []);
