@@ -3,9 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Shield, Zap, Target, Cpu, Users, ArrowRight, Play, CheckCircle } from "lucide-react";
+import { Zap, Target, Cpu, Users, ArrowRight, Play, CheckCircle } from "lucide-react";
 import LiveThreatMap from "@/components/LiveThreatMap";
 import CyberParticles from "@/components/CyberParticles";
+import PhishNetLogo from "@/components/PhishNetLogo";
 
 export default function LandingPage() {
   const containerVariants = {
@@ -37,16 +38,7 @@ export default function LandingPage() {
       {/* Futuristic Header */}
       <header className="relative z-10 border-b border-slate-900 bg-slate-950/60 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-tr from-primary to-secondary p-[1px] flex items-center justify-center shadow-[0_0_15px_rgba(0,240,255,0.3)]">
-              <div className="w-full h-full bg-slate-950 rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-primary" />
-              </div>
-            </div>
-            <span className="font-outfit text-xl font-extrabold tracking-wider bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent text-glow-primary">
-              PHISHNET AI
-            </span>
-          </div>
+          <PhishNetLogo compact markClassName="h-11 w-11" />
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider font-mono text-slate-400">
             <Link href="#features" className="hover:text-primary transition-colors">FEATURES</Link>

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   keywords: ["cybersecurity", "phishing simulation", "human risk intelligence", "SOC dashboard", "security awareness training"],
   authors: [{ name: "PhishNet AI Security" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/phishnet-mark.svg",
   }
 };
 
@@ -40,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>" />
+        <link rel="icon" href="/phishnet-mark.svg" />
       </head>
       <body
         className={`${newsreader.variable} ${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-[#050505] text-[#EBEBEB] min-h-screen`}

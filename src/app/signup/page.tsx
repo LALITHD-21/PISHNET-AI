@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Shield, Mail, Database, Building2 } from "lucide-react";
+import { Mail, Database, Building2 } from "lucide-react";
 import CyberParticles from "@/components/CyberParticles";
+import PhishNetLogo from "@/components/PhishNetLogo";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -41,14 +42,7 @@ export default function SignupPage() {
         className="relative z-10 w-full max-w-md"
       >
         <div className="flex flex-col items-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-primary to-secondary p-[1px] flex items-center justify-center shadow-[0_0_20px_rgba(0,240,255,0.3)] mb-4">
-            <div className="w-full h-full bg-slate-950 rounded-xl flex items-center justify-center">
-              <Shield className="w-6 h-6 text-secondary" />
-            </div>
-          </div>
-          <h2 className="font-outfit text-2xl font-black tracking-widest text-slate-100 text-glow-secondary">
-            PHISHNET AI
-          </h2>
+          <PhishNetLogo markClassName="h-14 w-14" wordmarkClassName="text-center" />
           <p className="text-xs text-slate-500 font-mono tracking-wider mt-1 uppercase">
             ESTABLISH THREAT GATEWAY NODE
           </p>

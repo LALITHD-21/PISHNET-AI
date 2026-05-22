@@ -3,8 +3,9 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Command, LayoutDashboard, Send, FileCode, Users, GraduationCap, Bot, Bomb, FileSpreadsheet, Settings, LogOut, RefreshCw, BarChart3, UserCircle } from "lucide-react";
+import { LayoutDashboard, Send, FileCode, Users, GraduationCap, Bot, Bomb, FileSpreadsheet, Settings, LogOut, RefreshCw, BarChart3, UserCircle } from "lucide-react";
 import { useSim } from "@/context/SimContext";
+import PhishNetLogo from "@/components/PhishNetLogo";
 
 interface SidebarLinkProps {
   href: string;
@@ -83,13 +84,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <aside className="hidden lg:flex w-72 border-r border-white/10 bg-black/80 backdrop-blur-md flex-col justify-between z-10 relative">
         <div>
           {/* Logo Brand */}
-          <div className="p-6 border-b border-white/10 flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl bg-white text-[#050505] flex items-center justify-center shadow-[0_0_24px_rgba(16,185,129,0.18)] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-[360deg]">
-              <Command className="w-4.5 h-4.5" />
-            </div>
-            <span className="font-outfit text-2xl font-semibold tracking-tighter gradient-text">
-              PHISHNET AI
-            </span>
+          <div className="p-6 border-b border-white/10">
+            <PhishNetLogo compact markClassName="h-10 w-10" wordmarkClassName="min-w-0" />
           </div>
 
           {/* Navigation Links */}
@@ -133,6 +129,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Header Console */}
         <header className="h-16 border-b border-white/10 bg-black/80 backdrop-blur-md px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
+            <PhishNetLogo showWordmark={false} markClassName="h-8 w-8" className="lg:hidden xl:inline-flex" />
             <h2 className="font-space-grotesk text-[10px] font-bold uppercase tracking-[0.2em] text-[#EBEBEB] flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_var(--primary)]"></span>
               PHISHNET MONITORING GRID

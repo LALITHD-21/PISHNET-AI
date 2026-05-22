@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PhishNet AI logo">
+  <defs>
+    <linearGradient id="shield" x1="18" y1="8" x2="48" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EBEBEB"/>
+      <stop offset="0.52" stop-color="#10B981"/>
+      <stop offset="1" stop-color="#064E3B"/>
+    </linearGradient>
+    <linearGradient id="line" x1="16" y1="16" x2="50" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981"/>
+      <stop offset="1" stop-color="#EBEBEB"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="#050505"/>
+  <path d="M32 8.5 48.5 15v14.1c0 12.1-6.8 21.4-16.5 26.4-9.7-5-16.5-14.3-16.5-26.4V15L32 8.5Z" fill="rgba(255,255,255,0.03)" stroke="url(#shield)" stroke-width="2.4"/>
+  <path d="M22 33.5c4.8-9.8 14.8-9.8 20 0-5.2 9.8-15.2 9.8-20 0Z" fill="rgba(16,185,129,0.10)" stroke="url(#line)" stroke-width="2"/>
+  <circle cx="32" cy="33.5" r="5.2" fill="#10B981"/>
+  <circle cx="32" cy="33.5" r="2.1" fill="#050505"/>
+  <path d="M19.5 22.5h8.2M36.3 22.5h8.2M32 14.5v8.2M32 44.3v5.8" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M25.2 26.9 20.4 22.5M38.8 26.9l4.8-4.4M25.2 40.1l-4.8 4.4M38.8 40.1l4.8 4.4" stroke="rgba(235,235,235,0.56)" stroke-width="1.2" stroke-linecap="round"/>
+  <circle cx="19.5" cy="22.5" r="2.2" fill="#10B981"/>
+  <circle cx="44.5" cy="22.5" r="2.2" fill="#10B981"/>
+  <circle cx="20.4" cy="44.5" r="1.7" fill="#EBEBEB"/>
+  <circle cx="43.6" cy="44.5" r="1.7" fill="#EBEBEB"/>
+</svg>
