@@ -1,0 +1,73 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: phishnet-web
+    ports:
+      - "3001:3000"
+    environment:
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+      NEXT_PUBLIC_API_URL: http://localhost:4000
+      NEXT_PUBLIC_AI_URL: http://localhost:8000
+    depends_on:
+      - api
+      - ai
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: phishnet-api
+    ports:
+      - "4000:4000"
+    environment:
+      API_PORT: 4000
+      CORS_ORIGIN: http://localhost:3001
+      JWT_SECRET: change-me-in-production
+      IP_HASH_SALT: change-me-too
+      DATABASE_URL: postgresql://phishnet:phishnet@postgres:5432/phishnet
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  ai:
+    build:
+      context: .
+      dockerfile: ai-service/Dockerfile
+    container_name: phishnet-ai
+    ports:
+      - "8000:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4.1-mini}
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: phishnet-postgres
+    environment:
+      POSTGRES_USER: phishnet
+      POSTGRES_PASSWORD: phishnet
+      POSTGRES_DB: phishnet
+    ports:
+      - "5432:5432"
+    volumes:
+      - phishnet-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U phishnet -d phishnet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  phishnet-postgres-data:

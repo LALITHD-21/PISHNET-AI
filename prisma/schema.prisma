@@ -1,0 +1,269 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  SOC_ANALYST
+  DEPARTMENT_MANAGER
+  EMPLOYEE
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum SimulationEventType {
+  DELIVERED
+  OPENED
+  CLICKED
+  CREDENTIALS_SUBMITTED
+  REPORTED
+  TRAINING_ASSIGNED
+  TRAINING_COMPLETED
+}
+
+enum RiskCategory {
+  SAFE
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model Organization {
+  id          String       @id @default(cuid())
+  name        String
+  domain      String       @unique
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  users       User[]
+  departments Department[]
+  campaigns   Campaign[]
+  templates   PhishingTemplate[]
+  auditLogs   AuditLog[]
+}
+
+model Department {
+  id             String        @id @default(cuid())
+  name           String
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  users          User[]
+  riskScores     RiskScore[]
+  campaigns      CampaignDepartment[]
+
+  @@unique([organizationId, name])
+  @@index([organizationId])
+}
+
+model User {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  departmentId   String?
+  department     Department?  @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  name           String
+  email          String
+  passwordHash   String?
+  role           Role         @default(EMPLOYEE)
+  mfaEnabled     Boolean      @default(true)
+  mfaSecretHash  String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  emailLogs      EmailLog[]
+  clickEvents    ClickEvent[]
+  credentialAttempts CredentialAttempt[]
+  riskScores     RiskScore[]
+  assignedTraining UserTraining[]
+  notifications  Notification[]
+  auditLogs      AuditLog[]
+
+  @@unique([organizationId, email])
+  @@index([organizationId, role])
+  @@index([departmentId])
+}
+
+model PhishingTemplate {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name           String
+  category       String
+  difficulty     String
+  sender         String
+  subject        String
+  bodyHtml       String
+  landingPageKey String
+  indicators     Json
+  safeMode       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  campaigns      Campaign[]
+
+  @@index([organizationId, category])
+}
+
+model Campaign {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  templateId     String
+  template       PhishingTemplate @relation(fields: [templateId], references: [id])
+  name           String
+  status         CampaignStatus @default(DRAFT)
+  scheduledAt    DateTime?
+  launchedAt     DateTime?
+  completedAt    DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  departments    CampaignDepartment[]
+  emailLogs      EmailLog[]
+  clickEvents    ClickEvent[]
+  credentialAttempts CredentialAttempt[]
+  analytics      AnalyticsSnapshot[]
+
+  @@index([organizationId, status])
+  @@index([templateId])
+}
+
+model CampaignDepartment {
+  campaignId   String
+  departmentId String
+  campaign     Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+
+  @@id([campaignId, departmentId])
+}
+
+model EmailLog {
+  id         String      @id @default(cuid())
+  campaignId String
+  userId     String
+  campaign   Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventType  SimulationEventType
+  userAgent  String?
+  ipHash     String?
+  metadata   Json?
+  createdAt  DateTime   @default(now())
+
+  @@index([campaignId, eventType])
+  @@index([userId, createdAt])
+}
+
+model ClickEvent {
+  id         String    @id @default(cuid())
+  campaignId String
+  userId     String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  urlKey     String
+  userAgent  String?
+  ipHash     String?
+  createdAt  DateTime @default(now())
+
+  @@index([campaignId, createdAt])
+  @@index([userId])
+}
+
+model CredentialAttempt {
+  id         String    @id @default(cuid())
+  campaignId String
+  userId     String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Stores only that a simulated submission occurred. Never store passwords, tokens, bank data, or secrets.
+  formKind   String
+  createdAt  DateTime @default(now())
+
+  @@index([campaignId, createdAt])
+  @@index([userId])
+}
+
+model RiskScore {
+  id           String       @id @default(cuid())
+  userId       String?
+  departmentId String?
+  user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  department   Department?  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  score        Int
+  category     RiskCategory
+  reasons      Json
+  createdAt    DateTime     @default(now())
+
+  @@index([userId, createdAt])
+  @@index([departmentId, createdAt])
+}
+
+model AnalyticsSnapshot {
+  id          String   @id @default(cuid())
+  campaignId  String
+  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  totals      Json
+  generatedAt DateTime @default(now())
+
+  @@index([campaignId, generatedAt])
+}
+
+model TrainingModule {
+  id          String         @id @default(cuid())
+  title       String
+  category    String
+  durationMin Int
+  difficulty  String
+  lessons     Json
+  quizzes     Json
+  badgeGiven  String
+  assignments UserTraining[]
+}
+
+model UserTraining {
+  id          String         @id @default(cuid())
+  userId      String
+  moduleId    String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module      TrainingModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  status      String         @default("ASSIGNED")
+  score       Int?
+  assignedAt  DateTime       @default(now())
+  completedAt DateTime?
+
+  @@unique([userId, moduleId])
+  @@index([status])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, readAt])
+}
+
+model AuditLog {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  actorUserId    String?
+  actor          User?        @relation(fields: [actorUserId], references: [id], onDelete: SetNull)
+  action         String
+  entityType     String
+  entityId       String?
+  metadata       Json?
+  createdAt      DateTime     @default(now())
+
+  @@index([organizationId, createdAt])
+  @@index([actorUserId])
+}
