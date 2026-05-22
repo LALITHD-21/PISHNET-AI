@@ -25,14 +25,9 @@ export default function AiCoachPage() {
     }
   }, [chatMessages]);
 
-  // Watch for AI response
   useEffect(() => {
     const last = chatMessages[chatMessages.length - 1];
-    if (last?.sender === "user") {
-      setIsTyping(true);
-      const t = setTimeout(() => setIsTyping(false), 900);
-      return () => clearTimeout(t);
-    }
+    setIsTyping(last?.sender === "user");
   }, [chatMessages]);
 
   const handleSend = () => {
@@ -54,8 +49,16 @@ export default function AiCoachPage() {
   const topRiskDept = [...departments].sort((a, b) => b.riskScore - a.riskScore)[0];
   const recentLogs = logs.slice(0, 5);
 
+  const escapeHtml = (text: string) =>
+    text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
   const renderMarkdown = (text: string) => {
-    return text
+    return escapeHtml(text)
       .replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary">$1</strong>')
       .replace(/### (.*?)(\n|$)/g, '<div class="text-xs font-bold text-accent uppercase tracking-wider mt-3 mb-1">$1</div>')
       .replace(/## (.*?)(\n|$)/g, '<div class="text-sm font-bold text-slate-100 mt-3 mb-1">$1</div>')
@@ -91,7 +94,7 @@ export default function AiCoachPage() {
                 { label: "Click-Through Rate", value: `${clickRate}%`, color: clickRate > 40 ? "text-rose-400" : "text-amber-400" },
                 { label: "Compromised Users", value: totalCompromised, color: "text-rose-500" },
                 { label: "Phish Reports Filed", value: totalReported, color: "text-emerald-400" },
-                { label: "Highest Risk Dept", value: topRiskDept?.name.replace(" & Accounting", "").replace(" & IT", "") || "—", color: "text-amber-500" },
+                { label: "Highest Risk Dept", value: topRiskDept?.name.replace(" & Accounting", "").replace(" & IT", "") || "-", color: "text-amber-500" },
                 { label: "Active Employees", value: employees.length, color: "text-primary" },
                 { label: "Total Campaigns", value: campaigns.length, color: "text-slate-300" },
               ].map(({ label, value, color }) => (
@@ -152,7 +155,7 @@ export default function AiCoachPage() {
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-200">PhishNet AI Cyber Coach</p>
-                <p className="text-[10px] text-emerald-400 font-mono">● Online · Context-aware · Security Intelligence v3.1</p>
+                <p className="text-[10px] text-emerald-400 font-mono">Online | Context-aware | Security Intelligence v3.1</p>
               </div>
             </div>
 
@@ -165,7 +168,7 @@ export default function AiCoachPage() {
                   </div>
                   <p className="text-slate-300 font-bold">Hello, Security Analyst.</p>
                   <p className="text-slate-500 text-xs max-w-sm mx-auto">I am your PhishNet AI Cyber Coach. Ask me to analyze campaign vulnerabilities, predict high-risk employees, or generate training recommendations.</p>
-                  <p className="text-slate-600 text-[10px]">Try a quick query from the sidebar →</p>
+                  <p className="text-slate-600 text-[10px]">Try a quick query from the sidebar.</p>
                 </div>
               )}
 

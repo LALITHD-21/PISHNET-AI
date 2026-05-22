@@ -998,6 +998,120 @@ export const SimProvider = ({ children }: { children: ReactNode }) => {
     triggerSave(currentUser, departments, updatedEmployees, campaigns, logs, chatMessages, finalCourses);
   };
 
+  const buildAssistantContext = () => {
+    const totalSent = campaigns.reduce((acc, campaign) => acc + campaign.emailsSent, 0);
+    const totalClicks = campaigns.reduce((acc, campaign) => acc + campaign.linksClicked, 0);
+    const totalCompromised = campaigns.reduce((acc, campaign) => acc + campaign.credentialsSubmitted, 0);
+    const totalReported = campaigns.reduce((acc, campaign) => acc + campaign.emailsReported, 0);
+    const clickRate = totalSent > 0 ? Math.round((totalClicks / totalSent) * 100) : 0;
+    const reportingRate = totalSent > 0 ? Math.round((totalReported / totalSent) * 100) : 0;
+    const criticalUsers = employees.filter((employee) => employee.riskScore >= 80).length;
+
+    return {
+      stats: {
+        totalSent,
+        totalClicks,
+        totalCompromised,
+        totalReported,
+        clickRate,
+        reportingRate,
+        criticalUsers,
+        activeCampaigns: campaigns.filter((campaign) => campaign.status === "Active").length
+      },
+      campaigns: campaigns.map((campaign) => ({
+        name: campaign.name,
+        status: campaign.status,
+        targetDepartments: campaign.targetDepartments,
+        emailsSent: campaign.emailsSent,
+        emailsOpened: campaign.emailsOpened,
+        linksClicked: campaign.linksClicked,
+        credentialsSubmitted: campaign.credentialsSubmitted,
+        emailsReported: campaign.emailsReported
+      })),
+      departments: departments.map((department) => ({
+        name: department.name,
+        riskScore: department.riskScore,
+        employeeCount: department.employeeCount,
+        clickRate: department.emailsSent > 0 ? Math.round((department.linksClicked / department.emailsSent) * 100) : 0,
+        credentialSubmissionRate: department.emailsSent > 0 ? Math.round((department.credentialsSubmitted / department.emailsSent) * 100) : 0,
+        reportingRate: department.emailsSent > 0 ? Math.round((department.emailsReported / department.emailsSent) * 100) : 0
+      })),
+      employees: [...employees]
+        .sort((a, b) => b.riskScore - a.riskScore)
+        .slice(0, 8)
+        .map((employee) => ({
+          name: employee.name,
+          department: employee.department,
+          riskScore: employee.riskScore,
+          failedCount: employee.failedCount,
+          passedCount: employee.passedCount,
+          completedTrainingCount: employee.completedTrainingCount,
+          badges: employee.badges
+        })),
+      logs: logs.slice(0, 12).map((log) => ({
+        timestamp: log.timestamp,
+        campaignName: log.campaignName,
+        employeeName: log.employeeName,
+        department: log.department,
+        action: log.action,
+        severity: log.severity,
+        details: log.details
+      })),
+      trainingCourses: trainingCourses.map((course) => ({
+        title: course.title,
+        category: course.category,
+        status: course.status,
+        progress: course.progress,
+        difficulty: course.difficulty
+      }))
+    };
+  };
+
+  const buildLocalAiResponse = (text: string) => {
+    let aiText = "I am PhishNet's Human Firewall Intelligence AI. I can analyze employee vulnerabilities and security metrics. Try checking risky departments or campaign summaries.";
+    const query = text.toLowerCase();
+
+    if (query.includes("risky departments") || query.includes("show risky departments") || query.includes("department")) {
+      const sorted = [...departments].sort((a, b) => b.riskScore - a.riskScore);
+      const topDepartment = sorted[0];
+
+      aiText = `Based on current campaign logs, the highest threat vectors belong to:\n\n` +
+        sorted.map((department, index) => `${index + 1}. **${department.name}** (Risk Score: ${department.riskScore}/100) - click rate: ${department.emailsSent > 0 ? Math.round((department.linksClicked / department.emailsSent) * 100) : 0}%.`).join("\n") +
+        `\n\n**Recommendation**: Deploy adaptive credential-safety training${topDepartment ? ` to **${topDepartment.name}**` : ""} immediately.`;
+    } else if (query.includes("phishing report") || query.includes("campaign")) {
+      const active = campaigns.find(c => c.status === "Active");
+      aiText = `### PhishNet AI Security Campaign Summary\n` +
+        `- **Total Campaigns**: ${campaigns.length}\n` +
+        `- **Active Campaign**: ${active ? active.name : "None"}\n\n` +
+        `**Aggregated Metrics Across Campaigns**:\n` +
+        `- Total Deliveries: ${campaigns.reduce((acc, c) => acc + c.emailsSent, 0)}\n` +
+        `- Total Clicks: ${campaigns.reduce((acc, c) => acc + c.linksClicked, 0)}\n` +
+        `- Total Credential Submissions: ${campaigns.reduce((acc, c) => acc + c.credentialsSubmitted, 0)}\n` +
+        `- Total Phish Reports: ${campaigns.reduce((acc, c) => acc + c.emailsReported, 0)}\n\n` +
+        `**Resilience Indicator**: The overall organization reporting rate is **${Math.round((campaigns.reduce((acc, c) => acc + c.emailsReported, 0) / Math.max(1, campaigns.reduce((acc, c) => acc + c.emailsSent, 0))) * 100)}%**. Push this toward 70% to build a stronger human firewall.`;
+    } else if (query.includes("explain phishing indicators") || query.includes("indicator") || query.includes("explain")) {
+      aiText = `Phishing attacks rely on social triggers:\n` +
+        `1. **Urgency**: attackers force fast decisions, like "expires in 2 hours".\n` +
+        `2. **Authority spoofing**: impersonating CEOs, HR, IT, or trusted vendors.\n` +
+        `3. **Mismatched domains**: display text looks trusted but the destination domain is suspicious.\n` +
+        `4. **Misleading actions**: QR scans, unexpected attachments, or payroll forms that create pressure.`;
+    } else if (query.includes("vulnerable users") || query.includes("predict")) {
+      const sortedEmps = [...employees].sort((a, b) => b.riskScore - a.riskScore);
+      aiText = `### Vulnerability AI Risk Prediction\n` +
+        `The risk model identifies these users as most susceptible to social engineering:\n\n` +
+        sortedEmps.slice(0, 3).map((employee) => `- **${employee.name}** (${employee.department}): Risk Score **${employee.riskScore}** (failed simulations: ${employee.failedCount}).`).join("\n") +
+        `\n\n*Action*: Assign mandatory micro-training to these high-risk candidates.`;
+    } else if (query.includes("hello") || query.includes("hi") || query.includes("help")) {
+      aiText = `Hello! I am your PhishNet AI Cyber Assistant. Ask me to:\n` +
+        `- *"Show risky departments"* to map company vulnerabilities.\n` +
+        `- *"Generate phishing report"* to review metrics.\n` +
+        `- *"Predict vulnerable users"* to identify high-risk employees.\n` +
+        `- *"Explain phishing indicators"* for training insights.`;
+    }
+
+    return aiText;
+  };
+
   // 5. Chat Bot message processing
   const sendChatMessage = (text: string) => {
     const newMsg: ChatMessage = {
@@ -1010,45 +1124,32 @@ export const SimProvider = ({ children }: { children: ReactNode }) => {
     const updatedChat = [...chatMessages, newMsg];
     setChatMessages(updatedChat);
 
-    // AI logic response builder
-    setTimeout(() => {
-      let aiText = "I am PhishNet's Human Firewall Intelligence AI. I can analyze employee vulnerabilities and security metrics. Try checking risky departments or campaign summaries.";
-      const query = text.toLowerCase();
+    const context = buildAssistantContext();
 
-      if (query.includes("risky departments") || query.includes("show risky departments") || query.includes("department")) {
-        const sorted = [...departments].sort((a, b) => b.riskScore - a.riskScore);
-        aiText = `Based on current campaign logs, the highest threat vectors belong to: \n\n` +
-          sorted.map((d, i) => `${i + 1}. **${d.name}** (Risk Score: ${d.riskScore}/100) — click rate: ${d.emailsSent > 0 ? Math.round((d.linksClicked / d.emailsSent) * 100) : 0}%.`).join("\n") +
-          `\n\n**Recommendation**: Deploy adaptive credentials harvesting training to **${sorted[0].name}** immediately.`;
-      } else if (query.includes("phishing report") || query.includes("campaign")) {
-        const active = campaigns.find(c => c.status === "Active");
-        aiText = `### PhishNet AI Security Campaign Summary\n` +
-          `- **Total Campaigns**: ${campaigns.length}\n` +
-          `- **Active Campaign**: ${active ? active.name : "None"}\n\n` +
-          `**Aggregated Metrics Across Campaigns**:\n` +
-          `- Total Deliveries: ${campaigns.reduce((acc, c) => acc + c.emailsSent, 0)}\n` +
-          `- Total Clicks: ${campaigns.reduce((acc, c) => acc + c.linksClicked, 0)}\n` +
-          `- Total Credentials Compromised: ${campaigns.reduce((acc, c) => acc + c.credentialsSubmitted, 0)}\n` +
-          `- Total Phish Reported: ${campaigns.reduce((acc, c) => acc + c.emailsReported, 0)}\n\n` +
-          `**Resilience Indicator**: The overall organization reporting rate is **${Math.round((campaigns.reduce((acc, c) => acc + c.emailsReported, 0) / Math.max(1, campaigns.reduce((acc, c) => acc + c.emailsSent, 0))) * 100)}%**. We need to push this to 70% to build a solid human firewall.`;
-      } else if (query.includes("explain phishing indicators") || query.includes("indicator") || query.includes("explain")) {
-        aiText = `Phishing attacks rely on social triggers: \n` +
-          `1. **Urgency**: Hackers force fast decisions (e.g. 'Expires in 2 hours').\n` +
-          `2. **Authority SPOOF**: impersonating CEOs or IT Admins.\n` +
-          `3. **Mismatched Domains**: Clicking 'microsoft.com' but sending you to 'microsoft-alert-portal.com'.\n` +
-          `4. **Misleading Call to Actions**: 'Scan QR code' or 'Open attachments' disguised as HR payroll forms.`;
-      } else if (query.includes("vulnerable users") || query.includes("predict")) {
-        const sortedEmps = [...employees].sort((a, b) => b.riskScore - a.riskScore);
-        aiText = `### Vulnerability AI Risk Prediction:\n` +
-          `The machine learning models identify these users as highly susceptible to social engineering:\n\n` +
-          sortedEmps.slice(0, 3).map((e) => `- **${e.name}** (${e.department}): Risk Score **${e.riskScore}** (Failed simulations: ${e.failedCount}).`).join("\n") +
-          `\n\n*Action*: Enable mandatory micro-training assignments for these high-risk candidates.`;
-      } else if (query.includes("hello") || query.includes("hi") || query.includes("help")) {
-        aiText = `Hello! I am your PhishNet AI Cyber Assistant. Ask me to:\n` +
-          `- *"Show risky departments"* to map company vulnerabilities.\n` +
-          `- *"Generate phishing report"* to review metrics.\n` +
-          `- *"Predict vulnerable users"* to identify high-risk employees.\n` +
-          `- *"Explain phishing indicators"* for training insights.`;
+    // AI logic response builder with OpenAI route and local fallback
+    void (async () => {
+      let aiText = buildLocalAiResponse(text);
+      try {
+        const response = await fetch("/api/ai-assistant", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text, context })
+        });
+
+        if (response.ok) {
+          const payload = await response.json() as { text?: string; provider?: string; model?: string };
+
+          if (payload.text) {
+            const source = payload.provider === "openai"
+              ? `\n\n_Source: OpenAI model ${payload.model || "configured model"}_`
+              : "\n\n_Source: PhishNet local analyzer_";
+            aiText = `${payload.text}${source}`;
+          }
+        } else {
+          aiText = `${aiText}\n\n_Source: PhishNet local analyzer_`;
+        }
+      } catch {
+        aiText = `${aiText}\n\n_Source: PhishNet local analyzer_`;
       }
 
       const aiMsg: ChatMessage = {
@@ -1061,7 +1162,7 @@ export const SimProvider = ({ children }: { children: ReactNode }) => {
       const finalChat = [...updatedChat, aiMsg];
       setChatMessages(finalChat);
       triggerSave(currentUser, departments, employees, campaigns, logs, finalChat);
-    }, 800);
+    })();
   };
 
   // 6. Maintenance actions
