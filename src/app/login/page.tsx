@@ -72,7 +72,7 @@ export default function LoginPage() {
         <div className="cyber-card p-8 rounded-xl border border-slate-900 bg-slate-950/60 backdrop-blur-md shadow-2xl">
           <h3 className="font-outfit text-lg font-bold text-slate-100 mb-6 text-left flex items-center gap-2">
             <span className="w-1 h-3.5 bg-primary rounded-full shadow-[0_0_8px_var(--primary)]"></span>
-            LOGIN TO TERMINAL
+            SECURE ACCESS
           </h3>
 
           {error && (
