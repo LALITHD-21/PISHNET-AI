@@ -16,7 +16,9 @@ import {
   YAxis
 } from "recharts";
 import {
+  Activity,
   ArrowRight,
+  Award,
   Bot,
   Brain,
   CheckCircle,
@@ -216,10 +218,10 @@ export default function SocDashboard() {
   ];
 
   const kpiCards = [
-    { label: "Human Firewall Score", value: `${stats.resilienceScore}%`, sub: "Resilience against phishing", icon: Shield, color: "text-primary", status: "EXECUTIVE" },
-    { label: "Click Exposure", value: `${stats.clickRate}%`, sub: `${stats.totalClicks} risky click events`, icon: Target, color: "text-amber-400", status: "WATCH" },
-    { label: "Credential Events", value: stats.totalCompromised, sub: `${stats.submitRate}% submit-after-click`, icon: Flame, color: "text-rose-400", status: "CRITICAL" },
-    { label: "Self Reports", value: `${stats.reportingRate}%`, sub: `${stats.totalReported} threats neutralized`, icon: CheckCircle, color: "text-emerald-400", status: "SECURE" }
+    { label: "Human Firewall Score", value: `${stats.resilienceScore}%`, sub: "Resilience against phishing", icon: Shield, color: "text-primary", bar: "bg-primary", progress: stats.resilienceScore, status: "EXECUTIVE" },
+    { label: "Click Exposure", value: `${stats.clickRate}%`, sub: `${stats.totalClicks} risky click events`, icon: Target, color: "text-amber-400", bar: "bg-amber-400", progress: stats.clickRate, status: "WATCH" },
+    { label: "Credential Events", value: stats.totalCompromised, sub: `${stats.submitRate}% submit-after-click`, icon: Flame, color: "text-rose-400", bar: "bg-rose-400", progress: Math.min(100, stats.totalCompromised * 8), status: "CRITICAL" },
+    { label: "Self Reports", value: `${stats.reportingRate}%`, sub: `${stats.totalReported} threats neutralized`, icon: CheckCircle, color: "text-emerald-400", bar: "bg-emerald-400", progress: stats.reportingRate, status: "SECURE" }
   ];
 
   const featureTiles = [
@@ -288,36 +290,72 @@ export default function SocDashboard() {
     { layer: "Realtime", value: "Socket.IO Event Stream" }
   ];
 
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-col xl:flex-row justify-between gap-5 border-b border-slate-900 pb-5">
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-primary">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-            Enterprise SOC Command Center
-          </div>
-          <h1 className="mt-3 font-outfit text-3xl md:text-4xl font-black tracking-tight text-slate-100">
-            Human Firewall Intelligence Dashboard
-          </h1>
-          <p className="mt-2 text-sm leading-relaxed text-slate-400">
-            A professional control room for phishing simulation, free/local AI analysis, human cyber-risk scoring, department heatmaps, adaptive training, and executive reporting.
-          </p>
-        </div>
+  const heroStats = [
+    { label: "Requirement Coverage", value: "5/5", icon: CheckCircle, color: "text-emerald-400", text: "All key features mapped" },
+    { label: "Deliverables", value: "5/5", icon: Award, color: "text-primary", text: "Prototype, docs, reports" },
+    { label: "AI Models", value: "6", icon: Brain, color: "text-secondary", text: "Free/local model mesh" },
+    { label: "Live Events", value: logs.length, icon: Activity, color: "text-amber-400", text: "Realtime simulation logs" }
+  ];
 
-        <div className="flex flex-col sm:flex-row xl:flex-col gap-3 xl:items-end">
-          <div className={`rounded-lg border px-4 py-2.5 text-[11px] font-mono font-bold uppercase tracking-wider ${threatLevel.tone} flex items-center gap-2`}>
-            <span className={`h-2 w-2 rounded-full ${threatLevel.pulse} animate-pulse`} />
-            {threatLevel.label}
+  return (
+    <div className="space-y-7 pb-8">
+      <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-[#050712]/90 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(0,240,255,0.10),transparent_34%,rgba(157,78,221,0.08)_68%,transparent)] pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+
+        <div className="relative z-10 grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <div className="xl:col-span-7">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-primary">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              Enterprise SOC Command Center
+            </div>
+            <h1 className="mt-4 font-outfit text-3xl md:text-5xl font-black tracking-tight text-slate-100">
+              Human Firewall Intelligence Dashboard
+            </h1>
+            <p className="mt-3 max-w-3xl text-sm md:text-base leading-relaxed text-slate-400">
+              A premium command center for phishing simulation, free/local AI analysis, human cyber-risk scoring, department heatmaps, adaptive training, and executive reporting.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/dashboard/campaigns" className="cyber-btn rounded-lg px-4 py-2.5 text-[11px] font-mono flex items-center gap-2">
+                Launch Campaign <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/dashboard/reports" className="rounded-lg border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 transition-colors hover:border-accent/40 hover:text-accent">
+                Executive Report
+              </Link>
+              <Link href="/dashboard/ai-coach" className="rounded-lg border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 transition-colors hover:border-secondary/40 hover:text-secondary">
+                Ask AI Coach
+              </Link>
+            </div>
           </div>
-          <div className="rounded-lg border border-slate-800 bg-slate-950/70 px-4 py-2.5 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-            <RefreshCw className="h-4 w-4 animate-spin text-primary" style={{ animationDuration: "12s" }} />
-            Realtime simulation active
+
+          <div className="xl:col-span-5">
+            <div className={`rounded-xl border px-4 py-3 text-[11px] font-mono font-bold uppercase tracking-wider ${threatLevel.tone} flex items-center justify-between gap-3`}>
+              <span className="flex items-center gap-2">
+                <span className={`h-2 w-2 rounded-full ${threatLevel.pulse} animate-pulse`} />
+                {threatLevel.label}
+              </span>
+              <RefreshCw className="h-4 w-4 animate-spin" style={{ animationDuration: "12s" }} />
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              {heroStats.map(({ label, value, icon: Icon, color, text }) => (
+                <div key={label} className="rounded-xl border border-slate-800/80 bg-slate-950/60 p-4">
+                  <div className="flex items-center justify-between">
+                    <Icon className={`h-4 w-4 ${color}`} />
+                    <span className={`font-outfit text-xl font-black ${color}`}>{value}</span>
+                  </div>
+                  <div className="mt-3 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-300">{label}</div>
+                  <div className="mt-0.5 text-[9px] text-slate-600">{text}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-        <div className="xl:col-span-8 cyber-card rounded-xl border border-primary/20 bg-slate-950/50 p-6 overflow-hidden">
+        <div className="xl:col-span-8 cyber-card rounded-2xl border border-primary/20 bg-slate-950/50 p-6 overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="lg:col-span-7 text-left">
               <p className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-primary">Explain this in 20 seconds</p>
@@ -327,8 +365,9 @@ export default function SocDashboard() {
               </p>
 
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-5 gap-3">
-                {WORKFLOW_STEPS.map(({ title, text, icon: Icon, color }) => (
-                  <div key={title} className="rounded-lg border border-slate-900 bg-[#030308]/70 p-3 min-h-32">
+                {WORKFLOW_STEPS.map(({ title, text, icon: Icon, color }, index) => (
+                  <div key={title} className="relative rounded-xl border border-slate-900 bg-[#030308]/75 p-3 min-h-32 overflow-hidden">
+                    <span className="absolute right-3 top-3 font-mono text-[10px] font-black text-slate-800">0{index + 1}</span>
                     <Icon className={`h-5 w-5 ${color}`} />
                     <div className="mt-3 font-outfit text-sm font-bold uppercase text-slate-100">{title}</div>
                     <p className="mt-1 text-[10px] leading-relaxed text-slate-500">{text}</p>
@@ -337,7 +376,7 @@ export default function SocDashboard() {
               </div>
             </div>
 
-            <div className="lg:col-span-5 rounded-xl border border-slate-900 bg-[#030308]/80 p-4 font-mono">
+            <div className="lg:col-span-5 rounded-2xl border border-slate-900 bg-[#030308]/80 p-4 font-mono">
               <div className="flex items-center justify-between border-b border-slate-900 pb-3">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">AI Executive Brief</span>
                 <span className="rounded border border-emerald-400/20 bg-emerald-400/5 px-2 py-1 text-[9px] font-bold text-emerald-400">LIVE</span>
@@ -354,7 +393,7 @@ export default function SocDashboard() {
           </div>
         </div>
 
-        <div className="xl:col-span-4 cyber-card rounded-xl border border-secondary/20 bg-slate-950/50 p-6">
+        <div className="xl:col-span-4 cyber-card rounded-2xl border border-secondary/20 bg-slate-950/50 p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-secondary">AI Model Hub</p>
@@ -371,8 +410,8 @@ export default function SocDashboard() {
               <button
                 key={model.id}
                 onClick={() => setActiveModel(model)}
-                className={`rounded-lg border p-3 text-left transition-all cursor-pointer ${
-                  activeModel.id === model.id ? model.border : "border-slate-900 bg-[#030308]/70 hover:border-slate-700"
+                className={`rounded-xl border p-3 text-left transition-all cursor-pointer ${
+                  activeModel.id === model.id ? `${model.border} shadow-[0_0_18px_rgba(0,240,255,0.08)]` : "border-slate-900 bg-[#030308]/70 hover:border-slate-700"
                 }`}
               >
                 <div className={`font-mono text-[10px] font-bold uppercase ${model.color}`}>{model.name}</div>
@@ -384,11 +423,15 @@ export default function SocDashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        {kpiCards.map(({ label, value, sub, icon: Icon, color, status }) => (
-          <div key={label} className="cyber-card rounded-xl border border-slate-900/70 bg-slate-950/40 p-5 text-left relative overflow-hidden">
+        {kpiCards.map(({ label, value, sub, icon: Icon, color, bar, progress, status }) => (
+          <div key={label} className="cyber-card rounded-2xl border border-slate-900/70 bg-slate-950/45 p-5 text-left relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-500/50 to-transparent" />
             <Icon className={`absolute right-4 top-4 h-11 w-11 opacity-15 ${color}`} />
             <span className="text-[10px] text-slate-500 block font-mono font-bold uppercase tracking-wider">{label}</span>
             <span className={`text-3xl font-extrabold font-outfit block my-1 ${color}`}>{value}</span>
+            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-slate-900">
+              <div className={`h-full rounded-full ${bar} transition-all duration-700`} style={{ width: `${Math.max(6, Math.min(100, progress))}%` }} />
+            </div>
             <div className="mt-3 flex items-center justify-between gap-2 text-[9px] font-mono font-bold uppercase">
               <span className="text-slate-500">{sub}</span>
               <span className={color}>{status}</span>
@@ -402,11 +445,13 @@ export default function SocDashboard() {
           <Link
             key={title}
             href={href}
-            className="cyber-card rounded-xl border border-slate-900 bg-slate-950/40 p-4 min-h-32 flex flex-col justify-between hover:border-primary/30 transition-all"
+            className="cyber-card group rounded-2xl border border-slate-900 bg-slate-950/45 p-4 min-h-32 flex flex-col justify-between hover:border-primary/40 transition-all"
           >
             <div className="flex items-center justify-between">
-              <Icon className="h-5 w-5 text-primary" />
-              <ArrowRight className="h-3.5 w-3.5 text-slate-600" />
+              <div className="rounded-lg border border-primary/15 bg-primary/5 p-2">
+                <Icon className="h-4 w-4 text-primary" />
+              </div>
+              <ArrowRight className="h-3.5 w-3.5 text-slate-600 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
             <div>
               <div className="font-outfit text-2xl font-black text-slate-100">{value}</div>
@@ -424,18 +469,24 @@ export default function SocDashboard() {
             subtitle="Every hackathon requirement is mapped to a working dashboard capability."
             glowColor="rgba(0, 240, 255, 0.16)"
           >
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-              {requirementCards.map(({ title, text, icon: Icon, status }) => (
-                <div key={title} className="rounded-xl border border-slate-900 bg-[#030308]/70 p-4 min-h-48 text-left flex flex-col justify-between">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-5 gap-4">
+              {requirementCards.map(({ title, text, icon: Icon, status }, index) => (
+                <div key={title} className="rounded-2xl border border-slate-900 bg-[#030308]/70 p-4 min-h-44 text-left flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between">
-                      <Icon className="h-5 w-5 text-primary" />
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-[10px] font-black text-primary">R{index + 1}</span>
+                        <Icon className="h-5 w-5 text-primary" />
+                      </div>
                       <span className="rounded border border-emerald-400/20 bg-emerald-400/5 px-2 py-0.5 text-[8px] font-mono font-bold uppercase text-emerald-400">
                         {status}
                       </span>
                     </div>
                     <h3 className="mt-4 font-outfit text-sm font-black uppercase text-slate-100">{title}</h3>
                     <p className="mt-2 text-[10px] leading-relaxed text-slate-500">{text}</p>
+                  </div>
+                  <div className="mt-4 h-1 overflow-hidden rounded-full bg-slate-900">
+                    <div className="h-full w-full rounded-full bg-emerald-400" />
                   </div>
                 </div>
               ))}
@@ -472,10 +523,12 @@ export default function SocDashboard() {
             subtitle="Judges can verify the required source code, dashboards, templates, training, security docs, and reports."
             glowColor="rgba(157, 78, 221, 0.16)"
           >
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-5 gap-4">
               {deliverableCards.map(({ title, text, icon: Icon }) => (
-                <div key={title} className="rounded-xl border border-slate-900 bg-[#030308]/70 p-4 min-h-40 text-left">
-                  <Icon className="h-5 w-5 text-secondary" />
+                <div key={title} className="rounded-2xl border border-slate-900 bg-[#030308]/70 p-4 min-h-40 text-left">
+                  <div className="rounded-lg border border-secondary/20 bg-secondary/5 p-2 w-fit">
+                    <Icon className="h-4 w-4 text-secondary" />
+                  </div>
                   <h3 className="mt-3 font-outfit text-sm font-bold uppercase text-slate-100">{title}</h3>
                   <p className="mt-2 text-[10px] leading-relaxed text-slate-500">{text}</p>
                 </div>
@@ -520,7 +573,7 @@ export default function SocDashboard() {
             }
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-              <div className="lg:col-span-7 rounded-xl border border-slate-900 bg-[#030308]/75 p-5 text-left">
+              <div className="lg:col-span-7 rounded-2xl border border-slate-900 bg-[#030308]/75 p-5 text-left">
                 <div className="flex items-start gap-3">
                   <div className={`rounded-lg border p-2 ${activeModel.border}`}>
                     <Brain className={`h-5 w-5 ${activeModel.color}`} />
@@ -547,7 +600,7 @@ export default function SocDashboard() {
                 </div>
               </div>
 
-              <div className="lg:col-span-5 rounded-xl border border-slate-900 bg-[#030308]/75 p-5">
+              <div className="lg:col-span-5 rounded-2xl border border-slate-900 bg-[#030308]/75 p-5">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500">Recommended Actions</span>
                   <Sparkles className="h-4 w-4 text-primary" />
@@ -574,7 +627,7 @@ export default function SocDashboard() {
           <DashboardCard title="EMPLOYEE TRIAGE QUEUE" subtitle="Top users by AI-predicted phishing vulnerability.">
             <div className="space-y-3 font-mono text-xs">
               {topRiskEmployees.map((employee, index) => (
-                <div key={employee.id} className="flex items-center gap-3 rounded-lg border border-slate-900 bg-[#030308]/65 p-3">
+                <div key={employee.id} className="flex items-center gap-3 rounded-xl border border-slate-900 bg-[#030308]/65 p-3">
                   <div className={`h-8 w-8 rounded-lg flex items-center justify-center font-black ${
                     index === 0 ? "bg-rose-500/15 text-rose-400" : "bg-slate-900 text-slate-400"
                   }`}>
